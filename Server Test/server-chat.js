@@ -12,6 +12,9 @@ var s = http.createServer( function(req,res){
 s.listen(8000);*/
 console.log("Starting Server");
 var net = require('net');
+var main = require('./main.js');
+
+main.sayHellow();
 
 var sockets = [];
 
@@ -19,8 +22,9 @@ var s = net.createServer(function(socket){
 	sockets.push(socket);
 	socket.on('data',function(d){
 		for (var i = 0; i < sockets.length; i++){
-			if (sockets[i] = socket) continue;
-			socket[i].write(d);
+			console.log("Enviando mensaje: " + d + "\n");
+			if (sockets[i] == socket) continue;
+			sockets[i].write(d);
 		}
 	});
 	socket.on('end',function(){
