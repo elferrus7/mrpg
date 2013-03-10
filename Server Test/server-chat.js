@@ -16,17 +16,18 @@ var main = require('./main.js');
 
 main.sayHellow();
 
-var sockets = [];
+var sockets = []; //sockets
 
-var s = net.createServer(function(socket){
+var s = net.createServer(function(socket){ //Creación de servidor de telnet
 	sockets.push(socket);
 	socket.on('data',function(d){
 		for (var i = 0; i < sockets.length; i++){
-			console.log("Enviando mensaje: " + d + "\n");
-			if (sockets[i] == socket) continue;
-			sockets[i].write(d);
+			console.log("Enviando mensaje: " + d + "\n"); //Mostrar mensajes
+			if (sockets[i] == socket) continue; // Brinca el socket que envia el mensaje
+			sockets[i].write(d); //Envia mensaje
 		}
 	});
+	//Deconectar clientes
 	socket.on('end',function(){
 		var i = sockets.indexOf(socket);
 		sockets.splice(i,1);
