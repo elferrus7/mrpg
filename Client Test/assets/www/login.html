@@ -27,14 +27,6 @@
         <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
         <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
-        <style>
-            #grid
-            {
-                width:250px;
-                padding:10px;
-                margin:110px;
-            }
-        </style>
         <script>
             try {
 
@@ -57,54 +49,36 @@
                 </h3>
             </div>
             <div data-role="content">
-                <script>
-                    var paper = Raphael(10, 50, 320, 200);
-                    var angle = 0;
-                    var img = paper.image("img/map.jpg",0,10,250,100);
-
-                    var face = paper.image("img/face.png",5,15,40,40);
-
-                    var rect1 = paper.rect(0, 10, 50, 50);
-                    var rect2 = paper.rect(50, 10, 50, 50);
-                    var rect3 = paper.rect(100, 10, 50, 50);
-                    var rect4 = paper.rect(150, 10, 50, 50);
-                    var rect5 = paper.rect(200, 10, 50, 50);
-
-                    var rect6 = paper.rect(0, 60, 50, 50);
-                    var rect7 = paper.rect(50, 60, 50, 50);
-                    var rect8 = paper.rect(100, 60, 50, 50);
-                    var rect9 = paper.rect(150, 60, 50, 50);
-                    var rect10 = paper.rect(200, 60, 50, 50);
-
-                    face.click(function (){
-                        angle -= 90;
-                        this.animate({transform: "r" + angle}, 1000, "<>");
-                    });
-
-                    //path.attr("fill", "#f00");
-
-                    //circle.attr("stroke", "#fff");
-                </script>
-                <div id = "grid"></div>
-                <div data-role="fieldcontain">
-                    <fieldset data-role="controlgroup">
-                        <label for="textarea1">
-                            Chat
-                        </label>
-                        <textarea name="" id="textarea1" placeholder="">
-                        </textarea>
+                <div style="">
+		            <img style="width: 256px; height: 256px" src="http://ufisk.no/d20_256.png">
+		        </div>
+				        <div data-role="fieldcontain">
+				            <fieldset data-role="controlgroup">
+				            	<label for="textinput3">
+				                    Username
+				                </label>
+				                <input name="" id="textinput3" placeholder="" value="" type="text">
+				                <label for="textinput4">
+				                    Password
+				                </label>
+				                <input name="" id="textinput4" placeholder="" value="" type="text">
+				            </fieldset>
+				        </div>
+				        <div>
+				            <a href="" data-transition="fade">
+				                Register
+				            </a>
+				        </div>
                          <a data-role="button" href="#page1">
-                            Send
+                            Login
                         </a>
                     </fieldset>
                 </div>
             </div>
-            <div data-theme="a" data-role="footer" data-position="fixed">
-                <h1>
-                </h1>
+            <div data-theme="a" data-role="footer" data-position="fixed" >
+            	<h1>a</h1>
             </div>
         </div>
-    </div>
         <script type="text/javascript" src="cordova-2.4.0.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">
