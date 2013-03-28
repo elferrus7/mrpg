@@ -32,7 +32,7 @@
             {
                 width:250px;
                 padding:10px;
-                margin:110px;
+                margin:170px;
             }
         </style>
         <script>
@@ -57,29 +57,98 @@
                 </h3>
             </div>
             <div data-role="content">
+                <script type="text/javascript" src="js/grid.js"></script>
                 <script>
-                    var paper = Raphael(10, 50, 320, 200);
+                    console.log("Grid initialiting");
+                    var grid = new Grid(8,5,"img/map.jpg");
+                    grid.addCharacter("img/face.png",5,15);
+                    grid.addCharacter("img/body.png",60,65);
+                    /*var paper = Raphael(10, 50, 600, 290);
                     var angle = 0;
-                    var img = paper.image("img/map.jpg",0,10,250,100);
+                    var click = false;
+                    var img = paper.image("img/map.jpg",0,10,400,250);
 
                     var face = paper.image("img/face.png",5,15,40,40);
+                    var body = paper.image("img/body.png",60,65,40,40);
+                    //Row one
+                    var movers = paper.set();
+                    movers.push( paper.rect(0, 10, 50, 50),
+                                 paper.rect(50, 10, 50, 50),
+                                 paper.rect(100, 10, 50, 50),
+                                 paper.rect(150, 10, 50, 50),
+                                 paper.rect(200, 10, 50, 50),
+                                 paper.rect(250, 10, 50, 50),
+                                 paper.rect(300, 10, 50, 50),
+                                 paper.rect(350, 10, 50, 50));
+                    movers.attr({fill: "#000", "fill-opacity": 0});
+                    //Row two
+                    var rect9 = paper.rect(0, 60, 50, 50);
+                    var rect10 = paper.rect(50, 60, 50, 50);
+                    var rect11 = paper.rect(100, 60, 50, 50);
+                    var rect12 = paper.rect(150, 60, 50, 50);
+                    var rect13 = paper.rect(200, 60, 50, 50);
+                    var rect14 = paper.rect(250, 60, 50, 50);
+                    var rect15 = paper.rect(300, 60, 50, 50);
+                    var rect16 = paper.rect(350, 60, 50, 50);
+                    //Row three
+                    var rect17 = paper.rect(0, 110, 50, 50);
+                    var rect18 = paper.rect(50, 110, 50, 50);
+                    var rect19 = paper.rect(100, 110, 50, 50);
+                    var rect20 = paper.rect(150, 110, 50, 50);
+                    var rect21 = paper.rect(200, 110, 50, 50);
+                    var rect31 = paper.rect(250, 110, 50, 50);
+                    var rect24 = paper.rect(300, 110, 50, 50);
+                    var rect25 = paper.rect(350, 110, 50, 50);
 
-                    var rect1 = paper.rect(0, 10, 50, 50);
-                    var rect2 = paper.rect(50, 10, 50, 50);
-                    var rect3 = paper.rect(100, 10, 50, 50);
-                    var rect4 = paper.rect(150, 10, 50, 50);
-                    var rect5 = paper.rect(200, 10, 50, 50);
+                    //Row four
+                    var rect26 = paper.rect(0, 160, 50, 50);
+                    var rect27 = paper.rect(50, 160, 50, 50);
+                    var rect28 = paper.rect(100, 160, 50, 50);
+                    var rect29 = paper.rect(150, 160, 50, 50);
+                    var rect30 = paper.rect(200, 160, 50, 50);
+                    var rect31 = paper.rect(250, 160, 50, 50);
+                    var rect32 = paper.rect(300, 160, 50, 50);
+                    var rect33 = paper.rect(350, 160, 50, 50);
 
-                    var rect6 = paper.rect(0, 60, 50, 50);
-                    var rect7 = paper.rect(50, 60, 50, 50);
-                    var rect8 = paper.rect(100, 60, 50, 50);
-                    var rect9 = paper.rect(150, 60, 50, 50);
-                    var rect10 = paper.rect(200, 60, 50, 50);
+                    //Row five
+                    var rect34 = paper.rect(0, 210, 50, 50);
+                    var rect35 = paper.rect(50, 210, 50, 50);
+                    var rect36 = paper.rect(100, 210, 50, 50);
+                    var rect37 = paper.rect(150, 210, 50, 50);
+                    var rect38 = paper.rect(200, 210, 50, 50);
+                    var rect39 = paper.rect(250, 210, 50, 50);
+                    var rect40 = paper.rect(300, 210, 50, 50);
+                    var rect41 = paper.rect(350, 210, 50, 50);
 
                     face.click(function (){
-                        angle -= 90;
-                        this.animate({transform: "r" + angle}, 1000, "<>");
+                        //angle -= 90;
+                        //this.transform("t50,2.5");
+                        //this.animate({transform: "r" + angle}, 1000, "<>");
                     });
+
+                   movers[0].click(function (){
+                        if (!click){
+                            angle -= 90;
+                            face.animate({transform: "r" + angle}, 1000, "<>");
+                            click = true;    
+                        } else{
+                            face.transform("t0,2.5r-90");
+                            click = false;
+                        }
+                        console.log("Click in 0");
+                    });
+
+                   movers[1].click(function (){
+                        if (!click){
+                            angle -= 90;
+                            face.animate({transform: "r" + angle}, 1000, "<>");
+                            click = true;    
+                        } else{
+                            face.transform("t50,2.5r-90");
+                            click = false;
+                        }
+                        console.log("Click in 1");
+                    });*/
 
                     //path.attr("fill", "#f00");
 
