@@ -9,7 +9,7 @@ function Grid(rows, colums, background){
 	this.paper = Raphael(10, 50, 600, 290); // This part is static right now but we have to configurate later
 	this.cells = this.paper.set(); // All the cells
 	characters = this.paper.set(); // All the images of the avatars thar represent the player and other NPC's
-	this.background = this.paper.image(background,0,10,400,250); // config
+	this.background = this.paper.image(background,0,0,400,250); // config
 	this.rows = rows; //Number of colums 
 	this.colums = colums; // Number of rows
 	id = 0; //Id for the cells
@@ -17,10 +17,10 @@ function Grid(rows, colums, background){
 	charid = 0;
 	//Creating the cells
 	//console.log("Painting grid from rows " + rows + "colums" + colums);
-	for (var i = 0 ; i < rows; i++) {
-		for (var j = 0; j < colums; j++) {
+	for (var i = 0 ; i < colums; i++) {
+		for (var j = 0; j < rows; j++) {
 			//console.log("Painting cell " + i + " " + j);
-			this.cells.push(this.paper.rect(i * 50, 10 + j * 50, 50, 50)
+			this.cells.push(this.paper.rect(i * 50, j * 50, 50, 50)
 									  .data("id",id++)
 				);
 		};
@@ -28,11 +28,17 @@ function Grid(rows, colums, background){
 	this.cells.attr({fill: "#000", "fill-opacity": 0}); // With this property we can click in the square
 	this.cells.click(function(){
 		if(flag){
-			console.log("Transforming char " + charid);
-			characters[charid].transform("t50,2.5r-90");
+			console.log("Transforming to cell " + this.data("id"));
+			string = "t" + (Math.floor(this.data("id") / rows)) * 50 + "," // Calculando el numero de columnas de la posicion de la celda
+						 + (this.data("id") - (Math.floor(this.data("id") / rows)) * rows ) * 50; // Calculando Numero de fila de la posición de la celda
+			console.log(string);
+			characters[charid].transform(string);
+			flag = false;
 		} else {
-			//console.log("Helow from " + this.data("id"));
-			console.log("Flag " + flag + " charid " + charid);
+			string = " colum " + (Math.floor(this.data("id") / rows)) + "," // Calculando el numero de columnas de la posicion de la celda
+						 + " Row "+ (this.data("id") - (Math.floor(this.data("id") / rows)) * rows ); // Calculando Numero de fila de la posición de la celda
+			console.log("Helow from " + this.data("id") + string);
+			//console.log("Flag " + flag + " charid " + charid);
 		}
 	});
 }
