@@ -25,17 +25,23 @@
         <!--<link rel="stylesheet" type="text/css" href="css/index.css" />-->
         <script type="text/javascript" src="js/raphael.js"></script>
         <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-        <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+        <!--<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>-->
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
         <!--Vertical menu -->
         <link rel="stylesheet" type="text/css" href="css/cssverticalmenu.css" />
         <script type="text/javascript" src="js/cssverticalmenu.js"></script>
+        <script type="text/javascript" src="js/grid.js"></script>
         <style>
             #grid
             {
                 width:250px;
                 padding:10px;
                 margin:170px;
+            }
+            #button{
+                width:100px;
+                
+                margin:100px;
             }
         </style>
         <script>
@@ -59,6 +65,12 @@
                     MRPG
                 </h3>
             </div>-->
+                <script>
+                    console.log("Grid initialiting");
+                    var grid = new Grid(5,8,"img/map.jpg");
+                    grid.addCharacter("img/face.png",0);
+                    grid.addCharacter("img/body.png",6);
+                </script>
             <div data-role="content">
                 <ul id="verticalmenu" class="glossymenu">
                     <li><img src="img/icons/game.ico"></li>
@@ -80,13 +92,6 @@
                         </ul>
                     </li>
                 </ul>
-                <script type="text/javascript" src="js/grid.js"></script>
-                <script>
-                    console.log("Grid initialiting");
-                    var grid = new Grid(5,8,"img/map.jpg");
-                    grid.addCharacter("img/face.png",0);
-                    grid.addCharacter("img/body.png",6);
-                </script>
                 <div id = "grid"></div>
                 <div data-role="fieldcontain">
                     <fieldset data-role="controlgroup">
@@ -95,9 +100,11 @@
                         </label>
                         <textarea name="" id="chat" placeholder="">
                         </textarea>
-                         <a data-role="button" href="#page1">
-                            Send
-                        </a>
+                        <div id = "button">
+                            <a data-role="button" href="#page1">
+                                Send
+                            </a>
+                        </div>
                     </fieldset>
                 </div>
             </div>
