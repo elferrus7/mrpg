@@ -35,9 +35,9 @@
         <style>
             #grid
             {
-                width:250px;
+                /*width:250px;
                 padding:10px;
-                margin:170px;
+                margin:170px;*/
             }
             textarea{
                 width:450px;
@@ -48,14 +48,8 @@
     <body>
         <div class="row">
             <div class = "span10">
-                <script>
-                    console.log("Grid initialiting");
-                    var grid = new Grid(6,10,"img/map.jpg");
-                    grid.addCharacter("img/face.png",0);
-                    grid.addCharacter("img/body.png",6);
-                </script>
-            
-                
+                <div class ="row">
+                <div class="span1">
                 <ul id="verticalmenu" class="glossymenu">
                     <li><img src="img/icons/game.ico"></li>
                     <li><img src="img/icons/dice.ico">
@@ -76,7 +70,16 @@
                         </ul>
                     </li>
                 </ul>
-                <div id = "grid"></div>
+                </div>
+                <div id = "grid" class="span9">
+                    <script>
+                        console.log("Grid initialiting");
+                        var grid = new Grid(6,10,"img/map.jpg");
+                        grid.addCharacter("img/face.png",0);
+                        grid.addCharacter("img/body.png",6);
+                    </script>
+                </div>
+                </div>
                 <div class="row">
                         <div class = "span6 offset1">
                         <textarea rows="1">
@@ -91,6 +94,64 @@
                 </div>
             </div>
         </div>
+
+        <!--Codigo de Milu -->
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+
+        <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css' />
+        <link href="css/animate.css" rel="stylesheet" type="text/css" />
+        <link href="css/style.css" rel="stylesheet" type="text/css" />
+        <link href="css/avgrund.css" rel="stylesheet" type="text/css" />
+        
+
+
+
+<div class="pr center wrapper">
+                <div class="cf pr chat animate">
+                    <div class="pa chat-shadow">
+                        <div class="content animate bounceInDown">Click <div class="big-button-green start">Start</div> to begin...</div>
+                    </div>
+                    <div class="cf chat-top">
+                        <div class="fl chat-left">
+                            <div class="chat-messages">
+                                <ul></ul>
+                            </div>
+                        </div>
+                       
+                    </div>
+                    <div class="cf chat-bottom">
+                        <div class="fl chat-input">
+                            <input type="text" placeholder="compose message..." />
+                        </div>
+                        <div class="fl chat-submit">
+                            <button>Send &rarr;</button>
+                        </div>
+                    </div>
+                </div>        
+</div>
+        
+        <aside id="nickname-popup" class="popup animate avgrund-popup">
+            <div class="title">Enter a nickname</div>
+            <div class="content">Please select a nickname, up to 15 characters</div>
+            <div class="input"><input type="text" maxlength="15" placeholder="nickname..." /></div>
+            <div class="big-button-green small begin">&mdash; Begin &mdash;</div>
+        </aside>
+        <aside id="addroom-popup" class="popup animate avgrund-popup">
+            <div class="title">Enter a room name</div>
+            <div class="content">Room name up to 10 characters</div>
+            <div class="input"><input type="text" maxlength="10" placeholder="room name..." /></div>
+            <div class="big-button-green small create">Create &rarr;</div>
+        </aside>
+        <div class="avgrund-cover"></div>
+
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="js/jquery.tmpl.min.js"></script>
+        <script type="text/javascript" src="js/socket.io.js"></script>
+        <script type="text/javascript" src="js/avgrund.js"></script>
+        <script type="text/javascript" src="js/chat.io.js"></script>
+
         <script type="text/javascript" src="cordova-2.4.0.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript">

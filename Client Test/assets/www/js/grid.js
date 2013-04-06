@@ -6,7 +6,7 @@ representation of the game.
 
 function Grid(rows, colums, background){
 	console.log("Grid initialized");
-	this.paper = Raphael(70, 0, 600, 600); // This part is static right now but we have to configurate later
+	this.paper = Raphael("grid", 600, 600); // This part is static right now but we have to configurate later
 	this.cells = this.paper.set(); // All the cells
 	characters = this.paper.set(); // All the images of the avatars thar represent the player and other NPC's
 	this.background = this.paper.image(background,0,0,500,300); // config
