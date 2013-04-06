@@ -1,3 +1,0 @@
-function Grid_Observer(){
-	
-}
