@@ -1,258 +1,134 @@
 <!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <!--<link rel="stylesheet" type="text/css" href="css/index.css" />-->
-        <script type="text/javascript" src="scripts/raphael.js"></script>
-        <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-        <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
-        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
-        <style>
-            #grid
-            {
-                width:250px;
-                padding:10px;
-                margin:170px;
-            }
-        </style>
-        <script>
-            try {
 
-                $(function() {
+	<head>
+		<script type="text/javascript" charset="utf-8" src="cordova-1.8.1.js"></script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 
-                });
+		<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css' />
+		<link href="styles/animate.css" rel="stylesheet" type="text/css" />
+		<link href="styles/style.css" rel="stylesheet" type="text/css" />
+		<link href="styles/avgrund.css" rel="stylesheet" type="text/css" />
+		
+	</head>
+	<body>
+		<div class="avgrund-contents">
+			<header>
+			</header>
+			<div class="pr center wrapper">
+				<div class="cf pr chat animate">
+					<div class="pa chat-shadow">
+					</div>
+					<div class="cf chat-top">
+						<div class="fl chat-left">
+							<div class="chat-messages">
+								<ul></ul>
+							</div>
+						</div>
+						<div class="fl chat-right">
+							<div class="chat-clients">
+								<div class="cf title">
+									<div class="fl">Users</div>
+								</div>
+								<ul></ul>
+							</div>
+							<div class="chat-rooms">
+								<div class="cf title">
+									<div class="fl">Rooms</div>
+									<div class="fr title-button">+</div>
+								</div>
+								<ul class="pr"></ul>
+							</div>
+						</div>
+					</div>
+					<div class="cf chat-bottom">
+						<div class="fl chat-input">
+							<input type="text" placeholder="compose message..." />
+						</div>
+						<div class="fl chat-submit">
+							<button>Send &rarr;</button>
+						</div>
+					</div>
+				</div>
+				<div class="pa info animate">
+					<h2>About this Project</h2>
+					<div class="image">
+						<img alt="" src="http://0.gravatar.com/avatar/838347acc4c97bfc938a2dac4043bd2a" />
+					</div>
+					<div class="text">
+						This project created by Udi Talias</br>
+						as part of a Node.js & Socket.io tutorial.<br />
+						You can read the full tutorial <a href="http://udidu.blogspot.com/2012/11/chat-evolution-nodejs-and-socketio.html">here</a>.
+						<br/><br />
+						<img alt="github" class="git-icon" src="images/github.png" /><br/><br/>
+						Get the code for this project from <a href="https://uditalias.github.com/chat-nodejs" target="_blank">github</a>
+					</div>
 
-              } catch (error) {
-                console.error("Your javascript has an error: " + error);
-            }
-        </script>
-        <title>MRPG</title>
-    </head>
-    <body>
-
-<div >
-
-        <div class="app">
-        <div data-role="page" id="page1">
-            <div data-theme="a" data-role="header">
-                <h3>
-                    MRPG
-                </h3>
-            </div>
-            <div data-role="content">
-                <script type="text/javascript" src="scripts/grid.js"></script>
-                <script>
-                    console.log("Grid initialiting");
-                    var grid = new Grid(5,8,"images/map.jpg");
-                    grid.addCharacter("images/face.png",5,5);
-                    grid.addCharacter("images/body.png",55,55);
-                    /*var paper = Raphael(10, 50, 600, 290);
-                    var angle = 0;
-                    var click = false;
-                    var img = paper.image("images/map.jpg",0,10,400,250);
-
-                    var face = paper.image("images/face.png",5,15,40,40);
-                    var body = paper.image("images/body.png",60,65,40,40);
-                    //Row one
-                    var movers = paper.set();
-                    movers.push( paper.rect(0, 10, 50, 50),
-                                 paper.rect(50, 10, 50, 50),
-                                 paper.rect(100, 10, 50, 50),
-                                 paper.rect(150, 10, 50, 50),
-                                 paper.rect(200, 10, 50, 50),
-                                 paper.rect(250, 10, 50, 50),
-                                 paper.rect(300, 10, 50, 50),
-                                 paper.rect(350, 10, 50, 50));
-                    movers.attr({fill: "#000", "fill-opacity": 0});
-                    //Row two
-                    var rect9 = paper.rect(0, 60, 50, 50);
-                    var rect10 = paper.rect(50, 60, 50, 50);
-                    var rect11 = paper.rect(100, 60, 50, 50);
-                    var rect12 = paper.rect(150, 60, 50, 50);
-                    var rect13 = paper.rect(200, 60, 50, 50);
-                    var rect14 = paper.rect(250, 60, 50, 50);
-                    var rect15 = paper.rect(300, 60, 50, 50);
-                    var rect16 = paper.rect(350, 60, 50, 50);
-                    //Row three
-                    var rect17 = paper.rect(0, 110, 50, 50);
-                    var rect18 = paper.rect(50, 110, 50, 50);
-                    var rect19 = paper.rect(100, 110, 50, 50);
-                    var rect20 = paper.rect(150, 110, 50, 50);
-                    var rect21 = paper.rect(200, 110, 50, 50);
-                    var rect31 = paper.rect(250, 110, 50, 50);
-                    var rect24 = paper.rect(300, 110, 50, 50);
-                    var rect25 = paper.rect(350, 110, 50, 50);
-
-                    //Row four
-                    var rect26 = paper.rect(0, 160, 50, 50);
-                    var rect27 = paper.rect(50, 160, 50, 50);
-                    var rect28 = paper.rect(100, 160, 50, 50);
-                    var rect29 = paper.rect(150, 160, 50, 50);
-                    var rect30 = paper.rect(200, 160, 50, 50);
-                    var rect31 = paper.rect(250, 160, 50, 50);
-                    var rect32 = paper.rect(300, 160, 50, 50);
-                    var rect33 = paper.rect(350, 160, 50, 50);
-
-                    //Row five
-                    var rect34 = paper.rect(0, 210, 50, 50);
-                    var rect35 = paper.rect(50, 210, 50, 50);
-                    var rect36 = paper.rect(100, 210, 50, 50);
-                    var rect37 = paper.rect(150, 210, 50, 50);
-                    var rect38 = paper.rect(200, 210, 50, 50);
-                    var rect39 = paper.rect(250, 210, 50, 50);
-                    var rect40 = paper.rect(300, 210, 50, 50);
-                    var rect41 = paper.rect(350, 210, 50, 50);
-
-                    face.click(function (){
-                        //angle -= 90;
-                        //this.transform("t50,2.5");
-                        //this.animate({transform: "r" + angle}, 1000, "<>");
-                    });
-
-                   movers[0].click(function (){
-                        if (!click){
-                            angle -= 90;
-                            face.animate({transform: "r" + angle}, 1000, "<>");
-                            click = true;    
-                        } else{
-                            face.transform("t0,2.5r-90");
-                            click = false;
-                        }
-                        console.log("Click in 0");
-                    });
-
-                   movers[1].click(function (){
-                        if (!click){
-                            angle -= 90;
-                            face.animate({transform: "r" + angle}, 1000, "<>");
-                            click = true;    
-                        } else{
-                            face.transform("t50,2.5r-90");
-                            click = false;
-                        }
-                        console.log("Click in 1");
-                    });*/
-
-                    //path.attr("fill", "#f00");
-
-                    //circle.attr("stroke", "#fff");
-                </script>
-                <div id = "grid"></div>
-                <div data-role="fieldcontain">
-                    <fieldset data-role="controlgroup">
-                        <label for="textarea1">
-                            Chat
-                        </label>
-                        <textarea name="" id="textarea1" placeholder="">
-                        </textarea>
-                         <a data-role="button" href="#page1">
-                            Send
-                        </a>
-                    </fieldset>
-                </div>
-            </div>
-            <div data-theme="a" data-role="footer" data-position="fixed">
-                <h1>
-                </h1>
-            </div>
-        </div>
-    </div>
-        <script type="text/javascript" src="cordova-2.4.0.js"></script>
-        <script type="text/javascript" src="scripts/index.js"></script>
-        <script type="text/javascript">
-            app.initialize();
-        </script>
+					
+				</div>
+			</div>
+			
+		</div>
+		
+		<aside id="nickname-popup" class="popup animate avgrund-popup">
+			<div class="title">Enter a nickname</div>
+			<div class="content">Please select a nickname, up to 15 characters</div>
+			<div class="input"><input type="text" maxlength="15" placeholder="nickname..." /></div>
+			<div class="big-button-green small begin">&mdash; Begin &mdash;</div>
+		</aside>
+		<aside id="addroom-popup" class="popup animate avgrund-popup">
+			<div class="title">Enter a room name</div>
+			<div class="content">Room name up to 10 characters</div>
+			<div class="input"><input type="text" maxlength="10" placeholder="room name..." /></div>
+			<div class="big-button-green small create">Create &rarr;</div>
+		</aside>
+		<div class="avgrund-cover"></div>
 
 
+		<footer>
+			<div class="share">
+				<a href="https://twitter.com/share" class="twitter-share-button" data-size="large">Tweet</a>
+				<div class="g-plusone" data-href="http://chatjs.io:8080/"></div>
+			</div>
+		</footer>
 
-</div>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="scripts/jquery.tmpl.min.js"></script>
+		<script type="text/javascript" src="scripts/socket.io.js"></script>
+		<script type="text/javascript" src="scripts/avgrund.js"></script>
+		<script type="text/javascript" src="scripts/chat.io.js"></script>
+		<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+		<script type="text/javascript">
+		  (function() {
+		    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+		    po.src = 'https://apis.google.com/js/plusone.js';
+		    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+		  })();
+		</script>
+		<script type="text/javascript">
+		$('h1 sup').on('click', function () {
+			if($('.chat').hasClass('bounceOutRight')){
+				$('.chat').removeClass('bounceOutRight');
+				$('.chat').addClass('bounceInLeft');
+				
+				$('.info').removeClass('bounceInLeft');
+				$('.info').addClass('bounceOutRight');
+				
+				window.setTimeout(function(){
+					$('.chat').removeClass('bounceInLeft');
+				}, 1500);
+			} else {
+				$('.chat').removeClass('bounceInLeft');
+				$('.chat').addClass('bounceOutRight');
+				
+				$('.info').removeClass('bounceOutRight');
+				$('.info').addClass('bounceInLeft');
+			}
+			
+		});
+		</script>
 
+		
+	</body>
 
-
-
-
-
-
-
-
-
-
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-
-        <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css' />
-        <link href="styles/animate.css" rel="stylesheet" type="text/css" />
-        <link href="styles/style.css" rel="stylesheet" type="text/css" />
-        <link href="styles/avgrund.css" rel="stylesheet" type="text/css" />
-
-
-
-<div class="pr center wrapper">
-                <div class="cf pr chat animate">
-                    <div class="pa chat-shadow">
-                        <div class="content animate bounceInDown">Click <div class="big-button-green start">Start</div> to begin...</div>
-                    </div>
-                    <div class="cf chat-top">
-                        <div class="fl chat-left">
-                            <div class="chat-messages">
-                                <ul></ul>
-                            </div>
-                        </div>
-                       
-                    </div>
-                    <div class="cf chat-bottom">
-                        <div class="fl chat-input">
-                            <input type="text" placeholder="compose message..." />
-                        </div>
-                        <div class="fl chat-submit">
-                            <button>Send &rarr;</button>
-                        </div>
-                    </div>
-                </div>        
-</div>
-        
-        <aside id="nickname-popup" class="popup animate avgrund-popup">
-            <div class="title">Enter a nickname</div>
-            <div class="content">Please select a nickname, up to 15 characters</div>
-            <div class="input"><input type="text" maxlength="15" placeholder="nickname..." /></div>
-            <div class="big-button-green small begin">&mdash; Begin &mdash;</div>
-        </aside>
-        <aside id="addroom-popup" class="popup animate avgrund-popup">
-            <div class="title">Enter a room name</div>
-            <div class="content">Room name up to 10 characters</div>
-            <div class="input"><input type="text" maxlength="10" placeholder="room name..." /></div>
-            <div class="big-button-green small create">Create &rarr;</div>
-        </aside>
-        <div class="avgrund-cover"></div>
-
-
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="scripts/jquery.tmpl.min.js"></script>
-        <script type="text/javascript" src="scripts/socket.io.js"></script>
-        <script type="text/javascript" src="scripts/avgrund.js"></script>
-        <script type="text/javascript" src="scripts/chat.io.js"></script>
-        <script type="text/javascript">
-            app.initialize();
-        </script>
-
-    </body>
 </html>
