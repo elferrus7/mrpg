@@ -5,12 +5,12 @@ console.log('Server starting');
 
 var s = http.createServer(function(req,res){
     res.writeHead(200, {'Content-Type': 'text/plain'});
-    var jason = {
+    /*var jason = function myJsonMethod(){
       "age" : "24",
       "hometown" : "Missoula, MT",
       "gender" : "male"
-    };
-    res.write(JSON.stringify(jason));
+    };*/
+    res.write('myJsonMethod({"age" : "24","hometown" : "Missoula, MT","gender" : "male"});');
     res.end();
 }).listen(8000);
 /*var options = {
