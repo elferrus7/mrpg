@@ -1,32 +1,34 @@
 // creating global parameters and start
 // listening to 'port', we are creating an express
 // server and then we are binding it with socket.io
-var express 	= require('express'),
-	app			= express(),
-    server  	= require('http').createServer(app),
+var server  	= require('http').createServer(function(req,res){
+    res.writeHead(200, {'Content-Type': 'text/plain'});
+
+    if(req.method == 'POST'){
+        var body = '';
+        req.on('data', function (data)
+        {
+            body += data;
+        });
+        req.on('end', function ()
+        {
+            var json = JSON.parse(body);
+            console.log(json.val1); 
+            console.log(json.val2); 
+
+            console.log(JSON.stringify(json)); 
+            //{"val1":"hello","val2[val3]":"world"}
+        });
+    }
+}),
     io      	= require('socket.io').listen(server),
     port    	= 8080,
-
     // hash object to save clients data,
     // { socketid: { clientid, nickname }, socketid: { ... } }
     chatClients = new Object();
 
 // listening to port...
 server.listen(port);
-
-// configure express, since this server is
-// also a web server, we need to define the
-// paths to the static files
-app.use("/styles", express.static(__dirname + '/public/styles'));
-app.use("/scripts", express.static(__dirname + '/public/scripts'));
-app.use("/images", express.static(__dirname + '/public/images'));
-
-// serving the main applicaion file (index.html)
-// when a client makes a request to the app root
-// (http://localhost:8080/)
-app.get('/', function (req, res) {
-	res.sendfile(__dirname + '/public/index.html');
-});
 
 // sets the log level of socket.io, with
 // log level 2 we wont see all the heartbits

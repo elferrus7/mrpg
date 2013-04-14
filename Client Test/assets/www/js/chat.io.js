@@ -12,7 +12,7 @@
 		currentRoom = null,
 
 		// server information
-		serverAddress = '192.168.0.14:8080',
+		serverAddress = '127.0.0.1:8080',
 		serverDisplayName = 'Server',
 		serverDisplayColor = '#1c5380',
 
@@ -40,31 +40,28 @@
 
 	// bind DOM elements like button clicks and keydown
 	function bindDOMEvents(){
-		
-		$('.chat-input input').on('keydown', function(e){
-			var key = e.which || e.keyCode;
-			if(key == 13) { handleMessage(); }
+
+		$('.json').on('click', function(){
+			{ asd(); }
+		});
+	
+		$('.cookie').on('click', function(){
+			{ WriteCookie(); }
 		});
 
-		$('.chat-submit button').on('click', function(){
-			handleMessage();
+		$('.submitbtn').on('click', function(){
+			handleMessage2();
 		});
 
-		$('#nickname-popup .input input').on('keydown', function(e){
-			var key = e.which || e.keyCode;
-			if(key == 13) { handleNickname(); }
+		$('.connect').on('click', function(){
+			 { handleNickname2(); }
 		});
 
 		$('#nickname-popup .begin').on('click', function(){
 			handleNickname();
 		});
-		
-		$('#addroom-popup .input input').on('keydown', function(e){
-			var key = e.which || e.keyCode;
-			if(key == 13) { createRoom(); }
-		});
 
-		$('#addroom-popup .create').on('click', function(){
+		$('.addRoom').on('click', function(){
 			createRoom();
 		});
 
@@ -154,7 +151,7 @@
 			var message = data.message;
 			
 			//display the message in the chat window
-			insertMessage(nickname, message, true, false, false);
+			insertMessage2(nickname, message, true, false, false);
 		});
 		
 		// when we subscribes to a room, the server sends a list
@@ -208,6 +205,21 @@
 			}
 		});
 	}
+
+	// Crea la cookie con el nombre de usuario
+	function WriteCookie(){
+       var username = $('.usr').val();
+       document.cookie = username;
+    }
+
+	// Obtiene la cookie con el nombre de usario correspondiente
+    function ReadCookie(){
+       var allcookies = document.cookie;
+       
+       // Get all the cookies pairs in an array
+       cookiearray  = allcookies.split(';');
+       return cookiearray[0];           
+    }
 
 	// add a room to the rooms list, socket.io may add
 	// a trailing '/' to the name so we are clearing it
@@ -265,6 +277,23 @@
 	// room he just created, if he trying to create a room with the same
 	// name like another room, then the server will subscribe the user
 	// to the existing room
+	function createRoom2(){
+		var room = $nickname
+		if(room && room.length <= ROOM_MAX_LENGTH && room != currentRoom){
+			
+			// show room creating message
+			//$('.chat-shadow').show().find('.content').html('Creating room: ' + room + '...');
+			//$('.chat-shadow').animate({ 'opacity': 1 }, 200);
+			
+			// unsubscribe from the current room
+			socket.emit('unsubscribe', { room: currentRoom });
+
+			// create and subscribe to the new room
+			socket.emit('subscribe', { room: room });
+			Avgrund.hide();
+		}
+	}
+
 	function createRoom(){
 		var room = $('#addroom-popup .input input').val().trim();
 		if(room && room.length <= ROOM_MAX_LENGTH && room != currentRoom){
@@ -295,36 +324,63 @@
 
 	// save the client nickname and start the chat by
 	// calling the 'connect()' function
-	function handleNickname(){
-		var nick = $('#nickname-popup .input input').val().trim();
+	function handleNickname2(){
+		var user = prompt("Dame tu username","nickname");
+		var nick = user;
 		if(nick && nick.length <= NICK_MAX_LENGTH){
 			nickname = nick;
-			Avgrund.hide();
 			connect();
-		} else {
-			shake('#nickname-popup', '#nickname-popup .input input', 'tada', 'yellow');
-			$('#nickname-popup .input input').val('');
 		}
 	}
 
 	// handle the client messages
-	function handleMessage(){
-		var message = $('.chat-input input').val().trim();
+	function handleMessage2(){
+		var message = $('.mchat').val().trim();		
+		var connection = $('.btn').val();
+
+		if (connection == "false") {
+			$('.btn').val('true');
+			handleNickname2();
+		}
 		if(message){
 
 			// send the message to the server with the room name
 			socket.emit('chatmessage', { message: message, room: currentRoom });
 			
 			// display the message in the chat window
-			insertMessage(nickname, message, true, true);
-			$('.chat-input input').val('');
-		} else {
-			shake('.chat', '.chat input', 'wobble', 'yellow');
+			insertMessage2(nickname, message, true, true);
+			$('.mchat').val('');
 		}
 	}
 
 	// insert a message to the chat window, this function can be
 	// called with some flags
+	function insertMessage2(sender, message, showTime, isMe, isServer){
+		var $html = $.tmpl(tmplt.message, {
+			sender: sender,
+			text: message,
+			time: showTime ? getTime() : ''
+		});
+
+		var $ms = sender + ": " + message+"\n";
+
+		// if isMe is true, mark this message so we can
+		// know that this is our message in the chat window
+		if(isMe){
+			$html.addClass('marker');
+		}
+
+		// if isServer is true, mark this message as a server
+		// message
+		if(isServer){
+			$html.find('.sender').css('color', serverDisplayColor);
+		}
+
+		//$html.appendTo('.chatlog');
+		$('.chatlog').val($('.chatlog').val() + $ms);
+		$('.chatlog').animate({ scrollTop: $('.chatlog').height() }, 100);
+	}
+
 	function insertMessage(sender, message, showTime, isMe, isServer){
 		var $html = $.tmpl(tmplt.message, {
 			sender: sender,
@@ -353,27 +409,12 @@
 		return (date.getHours() < 10 ? '0' + date.getHours().toString() : date.getHours()) + ':' +
 				(date.getMinutes() < 10 ? '0' + date.getMinutes().toString() : date.getMinutes());
 	}
-
-	// just for animation
-	function shake(container, input, effect, bgColor){
-		if(!lockShakeAnimation){
-			lockShakeAnimation = true;
-			$(container).addClass(effect);
-			$(input).addClass(bgColor);
-			window.setTimeout(function(){
-				$(container).removeClass(effect);
-				$(input).removeClass(bgColor);
-				$(input).focus();
-				lockShakeAnimation = false;
-			}, 1500);
-		}
-	}
 	
 	// after selecting a nickname we call this function
 	// in order to init the connection with the server
 	function connect(){
 		// show connecting message
-		$('.chat-shadow .content').html('Connecting...');
+		//$('.chat-shadow .content').html('Connecting...');
 		
 		// creating the connection and saving the socket
 		socket = io.connect(serverAddress);
