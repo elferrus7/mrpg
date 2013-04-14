@@ -62,3 +62,20 @@ Grid.prototype.addCharacter = function(src,cellid)
 		console.log("you clicked " + this.data("id"));
 	});*/
 };
+
+/*
+Esta función es llamada cuando se realiza un movimiento por parte de otro jugador
+*/
+
+Grid.prototype.moveImage = function(charId,cellId){
+	string = "t" + (Math.floor(cellId / rows)) * 50 + "," // Calculando el numero de columnas de la posicion de la celda
+				 + (cellId - (Math.floor(cellId / rows)) * rows ) * 50; // Calculando Numero de fila de la posición de la celda
+	//console.log("Translating " + charid + " al cell "+ this.data("id") + " con " + string);
+	characters[charId].transform(string);
+}
+
+Grid.prototype.updateGrid = function(json){
+	for(var i = 0; i < json.length; i++){
+		this.moveImage(json[i].id, json[i].cell);
+	}
+}
