@@ -40,14 +40,14 @@
                 margin:170px;*/
             }
             textarea{
-                width:450px;
+                width:460px;
             }
         </style>
         <title>MRPG</title>
     </head>
     <body>
         <div class="row">
-            <div class = "span10">
+            <div class = "span14">
                 <div class ="row">
                 <div class="span1">
                 <ul id="verticalmenu" class="glossymenu">
@@ -71,31 +71,29 @@
                     </li>
                 </ul>
                 </div>
-                <div id = "grid" class="span9">
+                <div id = "grid" class="span5">
                     <script>
                         console.log("Grid initialiting");
                         var grid = new Grid(6,10,"img/map.jpg");
                         grid.addCharacter("img/face.png",0);
                         grid.addCharacter("img/body.png",6);
-
-                        var jason = [{
-                                        id:0
-                                        cell:4
-                                     },
-                                     {
-                                        id:1
-                                        cell:8
-                                     }];
                     </script>
-                </div>
+                </div>    
+                          
                 </div>
                 <div class="row">
                         <div class = "span6 offset1">
-                        <textarea rows="1">
+                            <textarea disabled="yes" rows="10" cols="100" class="chatlog" readonly></textarea>
+                        </div>
+                </div>
+                <div class="row">
+                        <div class = "span6 offset1">
+                        <textarea rows="1" class="mchat">
                         </textarea>
                         </div>
                         <div class="span1">
-                            <a data-role="button" href="#page1" class="btn">
+                            <input type="hidden" value="false" class="btn"/> 
+                            <a data-role="button" class="btn submitbtn">
                                 Send
                             </a>
                         </div>
@@ -103,59 +101,8 @@
                 </div>
             </div>
         </div>
-
-        <!--Codigo de Milu -->
-
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-
-        <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900,100italic,300italic,400italic,700italic,900italic' rel='stylesheet' type='text/css' />
-        <link href="css/animate.css" rel="stylesheet" type="text/css" />
-        <link href="css/style.css" rel="stylesheet" type="text/css" />
-        <link href="css/avgrund.css" rel="stylesheet" type="text/css" />
-        
-
-
-
-<div class="pr center wrapper">
-                <div class="cf pr chat animate">
-                    <div class="pa chat-shadow">
-                        <div class="content animate bounceInDown">Click <div class="big-button-green start">Start</div> to begin...</div>
-                    </div>
-                    <div class="cf chat-top">
-                        <div class="fl chat-left">
-                            <div class="chat-messages">
-                                <ul></ul>
-                            </div>
-                        </div>
-                       
-                    </div>
-                    <div class="cf chat-bottom">
-                        <div class="fl chat-input">
-                            <input type="text" placeholder="compose message..." />
-                        </div>
-                        <div class="fl chat-submit">
-                            <button>Send &rarr;</button>
-                        </div>
-                    </div>
-                </div>        
-</div>
-        
-        <aside id="nickname-popup" class="popup animate avgrund-popup">
-            <div class="title">Enter a nickname</div>
-            <div class="content">Please select a nickname, up to 15 characters</div>
-            <div class="input"><input type="text" maxlength="15" placeholder="nickname..." /></div>
-            <div class="big-button-green small begin">&mdash; Begin &mdash;</div>
-        </aside>
-        <aside id="addroom-popup" class="popup animate avgrund-popup">
-            <div class="title">Enter a room name</div>
-            <div class="content">Room name up to 10 characters</div>
-            <div class="input"><input type="text" maxlength="10" placeholder="room name..." /></div>
-            <div class="big-button-green small create">Create &rarr;</div>
-        </aside>
-        <div class="avgrund-cover"></div>
-
-
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.9.1/jquery-ui.min.js"></script>
+        <input type="submit" value="false" class="btn prueba" /> 
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
         <script type="text/javascript" src="js/jquery.tmpl.min.js"></script>
         <script type="text/javascript" src="js/socket.io.js"></script>
         <script type="text/javascript" src="js/avgrund.js"></script>
