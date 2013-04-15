@@ -6,7 +6,7 @@ representation of the game.
 
 function Grid(rows, colums, background){
 	console.log("Grid initialized");
-	this.paper = Raphael("grid", 600, 600); // This part is static right now but we have to configurate later
+	this.paper = Raphael("grid", 600, 300); // This part is static right now but we have to configurate later
 	this.cells = this.paper.set(); // All the cells
 	characters = this.paper.set(); // All the images of the avatars thar represent the player and other NPC's
 	this.background = this.paper.image(background,0,0,500,300); // config
@@ -15,6 +15,7 @@ function Grid(rows, colums, background){
 	id = 0; //Id for the cells
 	flag = false; //Flag for the movement of the characters
 	charid = 0;
+	jason = new Array();
 	//Creating the cells
 	//console.log("Painting grid from rows " + rows + "colums" + colums);
 	for (var i = 0 ; i < colums; i++) {
@@ -32,6 +33,7 @@ function Grid(rows, colums, background){
 			string = "t" + (Math.floor(this.data("id") / rows)) * 50 + "," // Calculando el numero de columnas de la posicion de la celda
 						 + (this.data("id") - (Math.floor(this.data("id") / rows)) * rows ) * 50; // Calculando Numero de fila de la posición de la celda
 			//console.log("Translating " + charid + " al cell "+ this.data("id") + " con " + string);
+			jason[charid].cell = this.data("id");
 			characters[charid].transform(string);
 			flag = false;
 		} else {
@@ -45,8 +47,9 @@ function Grid(rows, colums, background){
 
 Grid.prototype.addCharacter = function(src,cellid)
 {
+	id = characters.length;
 	characters.push(this.paper.image(src, 5, 5, 40, 40)
-								   .data("id", characters.length)
+								   .data("id", id)
 								   .click(function(){
 										flag = true;
 										charid = this.data("id");
@@ -57,6 +60,7 @@ Grid.prototype.addCharacter = function(src,cellid)
 						 + (cellid - (Math.floor(cellid / this.rows)) * this.rows ) * 50;
 	//console.log("Transforming to " + string);
 	characters[characters.length -1].transform(string);
+	jason.push({id:id,cell:cellid});
 	//console.log("Character added in " + 5 + (Math.floor(cellid / this.rows)) * 55 + " , " + 5 + (cellid - (Math.floor(cellid / this.rows)) * this.rows ) * 55);
 	/*this.characters.click(function(){
 		console.log("you clicked " + this.data("id"));
@@ -68,14 +72,22 @@ Esta función es llamada cuando se realiza un movimiento por parte de otro jugad
 */
 
 Grid.prototype.moveImage = function(charId,cellId){
-	string = "t" + (Math.floor(cellId / rows)) * 50 + "," // Calculando el numero de columnas de la posicion de la celda
-				 + (cellId - (Math.floor(cellId / rows)) * rows ) * 50; // Calculando Numero de fila de la posición de la celda
+	string = "t" + (Math.floor(cellId / this.rows)) * 50 + "," // Calculando el numero de columnas de la posicion de la celda
+				 + (cellId - (Math.floor(cellId / this.rows)) * this.rows ) * 50; // Calculando Numero de fila de la posición de la celda
 	//console.log("Translating " + charid + " al cell "+ this.data("id") + " con " + string);
 	characters[charId].transform(string);
 }
 
-Grid.prototype.updateGrid = function(json){
-	for(var i = 0; i < json.length; i++){
-		this.moveImage(json[i].id, json[i].cell);
+Grid.prototype.updateGrid = function(sjason){
+	console.log("JSON recivido" + sjason);
+	ljason = JSON.parse(sjason);
+	console.log(ljason[1].id);
+	for(var i in ljason){
+		this.moveImage(ljason[i].id, ljason[i].cell);
 	}
+}
+
+Grid.prototype.returnJson=function(){
+	console.log("Json enviado " + JSON.stringify(jason));
+	return JSON.stringify(jason);
 }

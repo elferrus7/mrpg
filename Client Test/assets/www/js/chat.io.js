@@ -41,12 +41,18 @@
 	// bind DOM elements like button clicks and keydown
 	function bindDOMEvents(){
 
-		$('.json').on('click', function(){
+		/*$('.json').on('click', function(){
 			{ asd(); }
-		});
+		});*/
 	
 		$('.cookie').on('click', function(){
 			{ WriteCookie(); }
+		});
+
+		$('.passTurn').on('click',function(){
+			jason = grid.returnJson();
+			//console.log(jason);
+			socket.emit('updateGrid',jason);
 		});
 
 		$('.submitbtn').on('click', function(){
@@ -154,6 +160,11 @@
 			insertMessage2(nickname, message, true, false, false);
 		});
 		
+		socket.on('updateGrid',function(data){
+			//Updetea TU GRID
+			 grid.updateGrid(data);
+		});
+
 		// when we subscribes to a room, the server sends a list
 		// with the clients in this room
 		socket.on('roomclients', function(data){

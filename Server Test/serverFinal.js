@@ -1,3 +1,8 @@
+//Requaring observer
+var observer = require('./observer.js');
+//var main = require('./main.js');
+var obs = observer.createObserver();
+
 // creating global parameters and start
 // listening to 'port', we are creating an express
 // server and then we are binding it with socket.io
@@ -16,7 +21,8 @@ var server  	= require('http').createServer(function(req,res){
             console.log(json.val1); 
             console.log(json.val2); 
 
-            console.log(JSON.stringify(json)); 
+            //console.log(JSON.stringify(json)); 
+            //obs.warning(JSON.stringify(json));
             //{"val1":"hello","val2[val3]":"world"}
         });
     }
@@ -60,6 +66,12 @@ io.sockets.on('connection', function(socket){
 	socket.on('chatmessage', function(data){
 		chatmessage(socket, data);
 	});
+
+	socket.on('updateGrid',function(data){
+		//SE updeteo una GRID
+		console.log(data);
+		updateGrid(socket,data);
+	});
 	
 	// client subscribtion to a room
 	socket.on('subscribe', function(data){
@@ -79,6 +91,10 @@ io.sockets.on('connection', function(socket){
 		disconnect(socket);
 	});
 });
+
+function updateGrid(socket,data){
+	obs.warning(socket,data);
+}
 
 // create a client for the socket
 function connect(socket, data){
@@ -102,6 +118,9 @@ function connect(socket, data){
 	// sends a list of all active rooms in the
 	// server
 	socket.emit('roomslist', { rooms: getRooms() });
+
+	//Codio para manejar JSON
+	obs.addGrid(observer.createGridClient(socket.id,socket));
 }
 
 // when a client disconnect, unsubscribe him from

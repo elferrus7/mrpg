@@ -8,11 +8,7 @@ function loadjs2()
     console.log('requesting');
     $.ajax({
         type:'GET',
-<<<<<<< HEAD
-        url:"http://127.0.0.1:8080/",
-=======
         url:"http://127.0.0.1:8000/",
->>>>>>> 470224dfbab2646fd9f5c3662b0692eb4df4dad2
         jsonpCallback: "myJsonMethod",
         success:function(feed) {
         },

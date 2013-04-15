@@ -40,7 +40,7 @@
                 margin:170px;*/
             }
             textarea{
-                width:460px;
+                width:490px;
             }
         </style>
         <title>MRPG</title>
@@ -77,6 +77,10 @@
                         var grid = new Grid(6,10,"img/map.jpg");
                         grid.addCharacter("img/face.png",0);
                         grid.addCharacter("img/body.png",6);
+
+                        //var jason = [{id:0,cell:10},{id:1, cell:11}];
+                        //grid.updateGrid(jason);
+
                     </script>
                 </div>    
                           
@@ -96,12 +100,12 @@
                             <a data-role="button" class="btn submitbtn">
                                 Send
                             </a>
+                            <input type="submit" value="Pass" class="passTurn"/> 
                         </div>
                     
                 </div>
             </div>
         </div>
-        <input type="submit" value="false" class="btn prueba" /> 
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
         <script type="text/javascript" src="js/jquery.tmpl.min.js"></script>
         <script type="text/javascript" src="js/socket.io.js"></script>
