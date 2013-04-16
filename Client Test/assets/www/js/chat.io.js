@@ -12,7 +12,7 @@
 		currentRoom = null,
 
 		// server information
-		serverAddress = '127.0.0.1:8080',
+		serverAddress = '10.25.70.125:8080',
 		serverDisplayName = 'Server',
 		serverDisplayColor = '#1c5380',
 
@@ -52,7 +52,7 @@
 		$('.passTurn').on('click',function(){
 			jason = grid.returnJson();
 			//console.log(jason);
-			socket.emit('updateGrid',jason);
+			socket.emit('updateGrid',JSON.stringify(jason));
 		});
 
 		$('.submitbtn').on('click', function(){

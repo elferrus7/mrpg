@@ -34,6 +34,8 @@ function Grid(rows, colums, background){
 						 + (this.data("id") - (Math.floor(this.data("id") / rows)) * rows ) * 50; // Calculando Numero de fila de la posición de la celda
 			//console.log("Translating " + charid + " al cell "+ this.data("id") + " con " + string);
 			jason[charid].cell = this.data("id");
+			console.log("Actualizando valor de JSON");
+			console.log(jason[charid]);
 			characters[charid].transform(string);
 			flag = false;
 		} else {
@@ -88,6 +90,7 @@ Grid.prototype.updateGrid = function(sjason){
 }
 
 Grid.prototype.returnJson=function(){
-	console.log("Json enviado " + JSON.stringify(jason));
-	return JSON.stringify(jason);
+	//console.log("Json enviado " + JSON.stringify(jason));
+	console.log("Return jason");
+	return jason;
 }
