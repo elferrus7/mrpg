@@ -12,7 +12,7 @@
 		currentRoom = null,
 
 		// server information
-		serverAddress = '127.0.0.1:8080',
+		serverAddress = '10.25.64.208:8080',
 		serverDisplayName = 'Server',
 		serverDisplayColor = '#1c5380';
 
