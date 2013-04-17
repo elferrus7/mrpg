@@ -14,29 +14,7 @@
 		// server information
 		serverAddress = '127.0.0.1:8080',
 		serverDisplayName = 'Server',
-		serverDisplayColor = '#1c5380',
-
-		// some templates we going to use in the chat,
-		// like message row, client and room, this
-		// templates will be rendered with jQuery.tmpl
-		tmplt = {
-			room: [
-				'<li data-roomId="${room}">',
-					'<span class="icon"></span> ${room}',
-				'</li>'
-			].join(""),
-			client: [
-				'<li data-clientId="${clientId}" class="cf">',
-					'<div class="fl clientName"><span class="icon"></span> ${nickname}</div>',
-					'<div class="fr composing"></div>',
-				'</li>'
-			].join(""),
-			message: [
-				'<li class="cf">',
-					'<div class="fl sender">${sender}: </div><div class="fl text">${text}</div><div class="fr time">${time}</div>',
-				'</li>'
-			].join("")
-		};
+		serverDisplayColor = '#1c5380';
 
 	// bind DOM elements like button clicks and keydown
 	function bindDOMEvents(){
@@ -71,7 +49,7 @@
 			createRoom();
 		});
 
-		$('.big-button-green.start').on('click', function(){
+		/*$('.big-button-green.start').on('click', function(){
 			$('#nickname-popup .input input').val('');
 			Avgrund.show('#nickname-popup');
 			window.setTimeout(function(){
@@ -108,7 +86,7 @@
 				socket.emit('unsubscribe', { room: currentRoom });
 				socket.emit('subscribe', { room: room });
 			}
-		});
+		});*/
 	}
 
 	// bind socket.io event handlers
@@ -305,26 +283,6 @@
 		}
 	}
 
-	function createRoom(){
-		var room = $('#addroom-popup .input input').val().trim();
-		if(room && room.length <= ROOM_MAX_LENGTH && room != currentRoom){
-			
-			// show room creating message
-			$('.chat-shadow').show().find('.content').html('Creating room: ' + room + '...');
-			$('.chat-shadow').animate({ 'opacity': 1 }, 200);
-			
-			// unsubscribe from the current room
-			socket.emit('unsubscribe', { room: currentRoom });
-
-			// create and subscribe to the new room
-			socket.emit('subscribe', { room: room });
-			Avgrund.hide();
-		} else {
-			shake('#addroom-popup', '#addroom-popup .input input', 'tada', 'yellow');
-			$('#addroom-popup .input input').val('');
-		}
-	}
-
 	// sets the current room when the client
 	// makes a subscription
 	function setCurrentRoom(room){
@@ -368,7 +326,6 @@
 	// called with some flags
 	function insertMessage2(sender, message, showTime, isMe, isServer){
 		var $ms = sender + ": " + message+"\n";
-		chatlog += $ms;
 		// if isMe is true, mark this message so we can
 		// know that this is our message in the chat window
 		/*if(isMe){
@@ -432,5 +389,29 @@
 	$(function(){
 		bindDOMEvents();
 	});
+
+	
+
+		// some templates we going to use in the chat,
+		// like message row, client and room, this
+		// templates will be rendered with jQuery.tmpl
+		tmplt = {
+			room: [
+				'<li data-roomId="${room}">',
+					'<span class="icon"></span> ${room}',
+				'</li>'
+			].join(""),
+			client: [
+				'<li data-clientId="${clientId}" class="cf">',
+					'<div class="fl clientName"><span class="icon"></span> ${nickname}</div>',
+					'<div class="fr composing"></div>',
+				'</li>'
+			].join(""),
+			message: [
+				'<li class="cf">',
+					'<div class="fl sender">${sender}: </div><div class="fl text">${text}</div><div class="fr time">${time}</div>',
+				'</li>'
+			].join("")
+		};
 
 })(jQuery);
