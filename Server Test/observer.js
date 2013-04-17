@@ -9,9 +9,6 @@ Grid.prototype.notify = function(){
 	this.observer.warning();
 }
 
-GridClient.prototype.sendJson = function(jason){
-	this.socket.volatile.emit( 'updateGrid',jason);
-}
 
 
 //Receive and send the json to the observer
@@ -27,6 +24,10 @@ function GridClient(id,socket){
 	*/
 	this.socket = socket;
 	this.id = id;
+}
+
+GridClient.prototype.sendJson = function(jason){
+	this.socket.volatile.emit( 'updateGrid',jason);
 }
 
 exports.createGridClient = function(id,socket){

@@ -6,27 +6,7 @@ var obs = observer.createObserver();
 // creating global parameters and start
 // listening to 'port', we are creating an express
 // server and then we are binding it with socket.io
-var server  	= require('http').createServer(function(req,res){
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-
-    if(req.method == 'POST'){
-        var body = '';
-        req.on('data', function (data)
-        {
-            body += data;
-        });
-        req.on('end', function ()
-        {
-            var json = JSON.parse(body);
-            console.log(json.val1); 
-            console.log(json.val2); 
-
-            //console.log(JSON.stringify(json)); 
-            //obs.warning(JSON.stringify(json));
-            //{"val1":"hello","val2[val3]":"world"}
-        });
-    }
-}),
+var server  	= require('http').createServer(),
     io      	= require('socket.io').listen(server),
     port    	= 8080,
     // hash object to save clients data,
@@ -119,7 +99,9 @@ function connect(socket, data){
 	// server
 	socket.emit('roomslist', { rooms: getRooms() });
 
-	//Codio para manejar JSON
+	//Codio para la demostración Doomie
+	//Los Grid Client tienen que ser creados cuando 
+	//el usuario ingresa al juego
 	obs.addGrid(observer.createGridClient(socket.id,socket));
 }
 
