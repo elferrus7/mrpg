@@ -28,14 +28,10 @@
         <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
         <script>
-            try {
-
-                $(function() {
-
-                });
-
-              } catch (error) {
-                console.error("Your javascript has an error: " + error);
+            function login(){
+                if($('#textinput3').val() == "milu" || $('#textinput3').val() == "poke" ){
+                    window.location = "index.html";
+                }
             }
         </script>
         <title>MRPG</title>
@@ -61,7 +57,7 @@
 				                <label for="textinput4">
 				                    Password
 				                </label>
-				                <input name="" id="textinput4" placeholder="" value="" type="text">
+				                <input name="" id="textinput4" placeholder="" value="" type="password">
 				            </fieldset>
 				        </div>
 				        <div>
@@ -69,7 +65,7 @@
 				                Register
 				            </a>
 				        </div>
-                         <a data-role="button" rel="external" href="index.html">
+                         <a data-role="button" rel="external" href="javascript:login();">
                             Login
                         </a>
                     </fieldset>

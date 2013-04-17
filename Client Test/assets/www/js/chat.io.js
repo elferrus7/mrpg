@@ -12,7 +12,7 @@
 		currentRoom = null,
 
 		// server information
-		serverAddress = '10.25.70.125:8080',
+		serverAddress = '127.0.0.1:8080',
 		serverDisplayName = 'Server',
 		serverDisplayColor = '#1c5380',
 
@@ -367,17 +367,11 @@
 	// insert a message to the chat window, this function can be
 	// called with some flags
 	function insertMessage2(sender, message, showTime, isMe, isServer){
-		var $html = $.tmpl(tmplt.message, {
-			sender: sender,
-			text: message,
-			time: showTime ? getTime() : ''
-		});
-
 		var $ms = sender + ": " + message+"\n";
-
+		chatlog += $ms;
 		// if isMe is true, mark this message so we can
 		// know that this is our message in the chat window
-		if(isMe){
+		/*if(isMe){
 			$html.addClass('marker');
 		}
 
@@ -385,7 +379,7 @@
 		// message
 		if(isServer){
 			$html.find('.sender').css('color', serverDisplayColor);
-		}
+		}*/
 
 		//$html.appendTo('.chatlog');
 		$('.chatlog').val($('.chatlog').val() + $ms);
