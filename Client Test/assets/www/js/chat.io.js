@@ -12,7 +12,7 @@
 		currentRoom = null,
 
 		// server information
-		serverAddress = '127.0.0.1:8080',
+		serverAddress = '10.25.64.208:8080',
 		serverDisplayName = 'Server',
 		serverDisplayColor = '#1c5380',
 
@@ -368,7 +368,6 @@
 	// called with some flags
 	function insertMessage2(sender, message, showTime, isMe, isServer){
 		var $ms = sender + ": " + message+"\n";
-		chatlog += $ms;
 		// if isMe is true, mark this message so we can
 		// know that this is our message in the chat window
 		/*if(isMe){

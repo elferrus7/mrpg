@@ -30,6 +30,8 @@
         <script>
             function login(){
                 if($('#textinput3').val() == "milu" || $('#textinput3').val() == "poke" ){
+                    sessionStorage.value = 'val';
+                    console.log(sessionStorage.value);
                     window.location = "index.html";
                 }
             }

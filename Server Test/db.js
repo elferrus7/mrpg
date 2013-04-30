@@ -1,25 +1,36 @@
-// Retrieve
-var MongoClient = require('mongodb').MongoClient;
+function DB(){
+	var mongoose = require('mongoose');
+	mongoose.connect('mongodb://localhost/test');
 
-// Connect to the db
-MongoClient.connect("mongodb://localhost:27017/exampleDb", function(err, db) {
-  if(err) { return console.dir(err); }
-	  console.log("My body is ready \n");
-	  var collection = db.collection('users');
-	  var docs = [{first_name:"Fernando"}, {last_name:"Mendoza"}, {birthday:"01/30/1989"}];
+	var db = mongoose.connection;
+	db.on('error', console.error.bind(console, 'connection error:'));
+	db.once('open', function callback () {
+		console.log("Database connected");
+	  
+	});
+}
 
-	  collection.insert(docs, {w:1}, function(err, result) {
+function DB.prototype.User = function () {
 
-	  collection.find().toArray(function(err, items) {
-	  	console.log(items + "\n");
-	  });
+	var UserSchema = mongoose.Schema({
+    	name: String
+    	password: String
+	})
+	var UserModel = mongoose.model('User', UserSchema);
+}
 
-	  var stream = collection.find({mykey:{$ne:2}}).stream();
-	  stream.on("data", function(item) {});
-	  stream.on("end", function() {});
+function DB.prototype.saveUser = function (user){
+	var user = new UserModel(user);
+	user.save(function (err,user){
+		if(err)
+			console.log('Error saving user');
+	});
+}
 
-	  collection.findOne({mykey:1}, function(err, item) {});
-
-  });
-
-});
+function DB.prototype.findUser = function (pass){
+	UserModel.find({password: /pass/},function (err, user) {
+		if(err)
+			console.log('Error saving User');
+		return user
+	});
+}

@@ -1,133 +1,123 @@
-<!DOCTYPE html>
-<!--
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
+    <!DOCTYPE html>
+    <!--
+        Licensed to the Apache Software Foundation (ASF) under one
+        or more contributor license agreements.  See the NOTICE file
+        distributed with this work for additional information
+        regarding copyright ownership.  The ASF licenses this file
+        to you under the Apache License, Version 2.0 (the
+        "License"); you may not use this file except in compliance
+        with the License.  You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
+        http://www.apache.org/licenses/LICENSE-2.0
 
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <!--<link rel="stylesheet" type="text/css" href="css/index.css" />-->
-        <script type="text/javascript" src="js/raphael.js"></script>
-       <!-- <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-        <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
-        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />-->
-        <!--Vertical menu -->
-        <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
-        <!--<link rel="stylesheet" type="text/css" href="css/cssverticalmenu.css" />-->
-        <!--<script type="text/javascript" src="js/cssverticalmenu.js"></script>-->
-        <script type="text/javascript" src="js/grid.js"></script>
-        <script type="text/javascript" src="js/bootstrap.js"></script>
-        <style>
+        Unless required by applicable law or agreed to in writing,
+        software distributed under the License is distributed on an
+        "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+         KIND, either express or implied.  See the License for the
+        specific language governing permissions and limitations
+        under the License.
+    -->
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="format-detection" content="telephone=no" />
+            <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+            <!--<link rel="stylesheet" type="text/css" href="css/index.css" />-->
+            <script type="text/javascript" src="js/raphael.js"></script>
+            <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+            <!--<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+            <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />-->
+            <!--Vertical menu -->
+            <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
+            <!--<link rel="stylesheet" type="text/css" href="css/cssverticalmenu.css" />-->
+            <!--<script type="text/javascript" src="js/cssverticalmenu.js"></script>-->
+            <script type="text/javascript" src="js/grid.js"></script>
+            <script type="text/javascript" src="js/bootstrap.js"></script>
+            <style>
 
-            body{
-                background: url('img/background.png');
-                background-repeat:repeat
-            }
-            textarea{
-                width:490px;
-            }
-        </style>
-        <title>MRPG</title>
-    </head>
-    <body>
-        <div class="row">
-            <div class = "span14">
-                <div class ="row">
-                <div class="span1">
-                <!--<ul id="verticalmenu" class="glossymenu">
-                    <li><img src="img/icons/game.ico"></li>
-                    <li><img src="img/icons/dice.ico">
-                        <ul>
-                        <li><a href="http://www.javascriptkit.com/jsref/">JavaScript Reference</a></li>
-                        <li><a href="http://www.javascriptkit.com/domref/">DOM Reference</a></li>
-                        <li><a href="http://www.javascriptkit.com/dhtmltutors/cssreference.shtml">CSS Reference</a></li>
-                        </ul>
-                    </li>
-                    <li><img src="img/icons/zoom.ico">
-                        <ul>
-                        <li><a href="http://www.dynamicdrive.com">Dynamic HTML</a></li>
-                        <li><a href="http://www.codingforums.com">Coding Forums</a></li>
-                        <li><a href="http://www.cssdrive.com">CSS Drive</a></li>
-                        <li><a href="http://www.dynamicdrive.com/style/">CSS Library</a></li>
-                        <li><a href="http://tools.dynamicdrive.com/imageoptimizer/">Image Optimizer</a></li>
-                        <li><a href="http://tools.dynamicdrive.com/favicon/">Favicon Generator</a></li>
-                        </ul>
-                    </li>
-                </ul>-->
-                <div class="dropdown">
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                        <li class="dropwon-submenu">
-                            <a tabindex="-1" href="#">More options</a>
-                                <ul class="dropdown-menu">
-                                  <li>
-                                    <a tabindex="-1" href="#">options</a>   
-                                  </li>
-                                </ul>
-                        </li>
-                    </ul>
-                </div>
-                </div>
-                <div id = "grid" class="span5">
-                    <script>
-                        console.log("Grid initialiting");
-                        var grid = new Grid(6,10,"img/map.jpg");
-                        grid.addCharacter("img/face.png",0);
-                        grid.addCharacter("img/body.png",6);
+                body{
+                    background: url('img/background.png');
+                    background-repeat:repeat
+                }
+                textarea{
+                    width:490px;
+                }
+            </style>
+            <title>MRPG</title>
+        </head>
+        <body>
+            <div class="row"><!--Open row1-->
+                <div class = "span14"><!--Open span14-->
+                    <div class ="row"><!--Open row2-->
+                    <div class="span1"><!--Open span1-->
+                    <div class="btn-group btn-group-vertical"><!--Open btngroup-->
+                         <a class="btn" data-toggle="dropdown" href="#">
+                            Action
+                            <span class="caret"></span>
+                          </a>
+                         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+                                <li class="dropdown-submenu">
+                                    <a tabindex="-1" href="#">More options</a>
+                                    <ul class="dropdown-menu">
+                                      <li><a tabindex="-1" href="#">Second level link</a></li>
+                                      <li><a tabindex="-1" href="#">Second level link</a></li>
+                                      <li><a tabindex="-1" href="#">Second level link</a></li>
+                                      <li><a tabindex="-1" href="#">Second level link</a></li>
+                                      <li><a tabindex="-1" href="#">Second level link</a></li>
+                                    </ul>
+                              </li>
+                         </ul> 
+                      <!--</div>-->
+                    </div><!--close btngroup-->
+                </div><!--close span1-->
 
-                        //var jason = [{id:0,cell:10},{id:1, cell:11}];
-                        //grid.updateGrid(jason);
+                    <div id = "grid" class="span13">
+                        <script>
+                            var saludo = sessionStorage.value;
+                            console.log(saludo);
+                            //console.log("Grid initialiting");
+                            var grid = new Grid(6,10,"img/game-map.jpg");
+                            grid.addCharacter("img/face.png",0);
+                            grid.addCharacter("img/body.png",6);
+                            //grid.setBackground('img/map.jpg');
+                            //var jason = [{id:0,cell:10},{id:1, cell:11}];
+                            //grid.updateGrid(jason);
 
-                    </script>
-                </div>    
-                          
-                </div>
-                <div class="row">
-                        <div class = "span6 offset1">
-                            <textarea disabled="yes" rows="10" cols="100" class="chatlog" readonly></textarea>
-                        </div>
-                </div>
-                <div class="row">
-                        <div class = "span6 offset1">
-                        <textarea rows="1" class="mchat">
-                        </textarea>
-                        </div>
-                        <div class="span1">
-                            <input type="hidden" value="false" class="btn"/> 
-                            <a data-role="button" class="btn submitbtn">
-                                Send
-                            </a>
-                            <input type="submit" value="Pass" class="passTurn"/> 
-                        </div>
-                    
-                </div>
-            </div>
-        </div>
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-        <script type="text/javascript" src="js/jquery.tmpl.min.js"></script>
-        <script type="text/javascript" src="js/socket.io.js"></script>
-        <!--<script type="text/javascript" src="js/avgrund.js"></script>-->
-        <script type="text/javascript" src="js/chat.io.js"></script>
+                        </script>
+                    </div>    
+                                 
+                </div><!--close row2-->
+                    <div class="row">
+                            <div class = "span6 offset1">
+                                <textarea disabled rows="10" cols="100" class="chatlog" readonly></textarea>
+                            </div>
+                    </div>
+                    <div class="row">
+                            <div class = "span6 offset1">
+                            <textarea rows="1" class="mchat">
+                            </textarea>
+                            </div>
+                            <div class="span1">
+                                <input type="hidden" value="false" class="btn"/> 
+                                <a data-role="button" class="btn submitbtn">
+                                    Send
+                                </a>
+                                <input type="submit" value="Pass" class="passTurn"/> 
+                            </div>
+                        
+                    </div>
+                </div><!--close span14-->
+            </div><!--close row1-->
+            <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+            <script type="text/javascript" src="js/jquery.tmpl.min.js"></script>
+            <script type="text/javascript" src="js/socket.io.js"></script>
+            <!--<script type="text/javascript" src="js/avgrund.js"></script>-->
+            <script type="text/javascript" src="js/chat.io.js"></script>
 
-        <script type="text/javascript" src="cordova-2.4.0.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript">
-            app.initialize();
-        </script>
-    </body>
-</html>
+            <script type="text/javascript" src="cordova-2.4.0.js"></script>
+            <script type="text/javascript" src="js/index.js"></script>
+            <script type="text/javascript">
+                app.initialize();
+            </script>
+        </body>
+    </html>

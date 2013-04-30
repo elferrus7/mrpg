@@ -94,3 +94,9 @@ Grid.prototype.returnJson=function(){
 	console.log("Return jason");
 	return jason;
 }
+
+Grid.prototype.setBackground = function(background){
+	this.background.remove();
+	//console.log(background);
+	this.background = this.paper.image(background,0,0,500,300);
+}
