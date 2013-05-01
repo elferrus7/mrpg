@@ -369,7 +369,7 @@
 		// if isServer is true, mark this message as a server
 		// message
 		if(isServer){
-			$('.chatlog').val($('.chatlog').val() + $ms);
+			//$('.chatlog').val($('.chatlog').val() + $ms);
 		}else{
 
 		//$html.appendTo('.chatlog');
