@@ -326,7 +326,7 @@
 	// handle the client messages
 	function handleMessage2(){
 		var message = $('.mchat').val().trim();		
-		var connection = $('.btn').val();
+		var connection = $('#btn').val();
 		if (connection == "false") {
 			$('.btn').val('true');
 			handleNickname2();
@@ -356,11 +356,12 @@
 		// message
 		if(isServer){
 			$('.chatlog').val($('.chatlog').val() + $ms);
-		}
+		}else{
 
 		//$html.appendTo('.chatlog');
 		$('.chatlog').val($('.chatlog').val() + getTime() + " " + $ms);
 		$('.chatlog').animate({ scrollTop: $('.chatlog').height() }, 100);
+		}
 	}
 
 	function insertMessage(sender, message, showTime, isMe, isServer){
