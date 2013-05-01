@@ -1,0 +1,38 @@
+  <!DOCTYPE html>
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="format-detection" content="telephone=no" />
+            <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+            <style>
+                body{
+                    background: url('img/background.png');
+                    background-repeat:repeat
+                }
+            </style>
+            <title>Creating New Game</title>
+        </head>
+        <body>
+        	<center>
+        	<div class="chat-rooms">
+				<div class="title">
+					<div class="h1"><font color="white">Rooms</font></div>
+				</div>
+				<ul></ul>
+			</div>
+			<input type="submit" value="Connect" class="connect"/> 
+			<input type="submit" value="Refresh" class="rooms"/> <br/>
+            <textarea disabled="yes" rows="10" cols="100" class="roomlog" readonly></textarea>
+			</center>
+
+			 <script type="text/javascript" src="js/jquery.min.js"></script>
+            <script type="text/javascript" src="js/socket.io.js"></script>
+            <script type="text/javascript" src="js/chat.io.js"></script>
+
+            <script type="text/javascript" src="cordova-2.4.0.js"></script>
+            <script type="text/javascript" src="js/index.js"></script>
+            <script type="text/javascript">
+                app.initialize();
+            </script>
+        </body>
+    </html>

@@ -12,16 +12,16 @@
 		currentRoom = null,
 
 		// server information
-		serverAddress = '10.25.64.208:8080',
+		serverAddress = '127.0.0.1:8080',
 		serverDisplayName = 'Server',
 		serverDisplayColor = '#1c5380';
 
 	// bind DOM elements like button clicks and keydown
 	function bindDOMEvents(){
 
-		/*$('.json').on('click', function(){
-			{ asd(); }
-		});*/
+		$('.rooms').on('click', function(){
+				socket.emit('requestList');
+		});	
 	
 		$('.cookie').on('click', function(){
 			{ WriteCookie(); }
@@ -105,10 +105,10 @@
 		// is fired in the server with our clientId, now we can start 
 		socket.on('ready', function(data){
 			// hiding the 'connecting...' message
-			$('.chat-shadow').animate({ 'opacity': 0 }, 200, function(){
+			/*$('.chat-shadow').animate({ 'opacity': 0 }, 200, function(){
 				$(this).hide();
 				$('.chat input').focus();
-			});
+			});*/
 			
 			// saving the clientId localy
 			clientId = data.clientId;
@@ -124,6 +124,22 @@
 				// displayed in the rooms list
 				if(data.rooms[i] != ''){
 					addRoom(data.rooms[i], false);
+					var aux = data.rooms[i].replace('/','');
+					$('.roomlog').val($('.roomlog').val() + aux + "\n");
+				}
+			}
+		});
+
+		// after the initialize, the server sends a list of
+		// all the active rooms
+		socket.on('displaylist', function(data){
+			// Clear the rooms
+			$('.roomlog').val("");
+
+			// loop through the rooms and display them
+			for(var i = 0, len = data.rooms.length; i < len; i++){
+				if(data.rooms[i] != ''){
+					$('.roomlog').val($('.roomlog').val() + data.rooms[i]+ "\n");
 				}
 			}
 		});
@@ -154,7 +170,7 @@
 			setCurrentRoom(data.room);
 			
 			// announce a welcome message
-			insertMessage(serverDisplayName, 'Welcome to the room: `' + data.room + '`... enjoy!', true, false, true);
+			insertMessage2(serverDisplayName, 'Welcome to the room: `' + data.room + '`... enjoy!', true, false, true);
 			$('.chat-clients ul').empty();
 			
 			// add the clients to the clients list
@@ -210,20 +226,20 @@
        return cookiearray[0];           
     }
 
-	// add a room to the rooms list, socket.io may add
+    // add a room to the rooms list, socket.io may add
 	// a trailing '/' to the name so we are clearing it
 	function addRoom(name, announce){
 		// clear the trailing '/'
 		name = name.replace('/','');
 
 		// check if the room is not already in the list
-		if($('.chat-rooms ul li[data-roomId="' + name + '"]').length == 0){
+		/*if($('.chat-rooms ul li[data-roomId="' + name + '"]').length == 0){
 			$.tmpl(tmplt.room, { room: name }).appendTo('.chat-rooms ul');
 			// if announce is true, show a message about this room
 			if(announce){
-				insertMessage(serverDisplayName, 'The room `' + name + '` created...', true, false, true);
+				//insertMessage2(serverDisplayName, 'The room `' + name + '` created...', true, false, true);
 			}
-		}
+		}*/
 	}
 
 	// remove a room from the rooms list
@@ -231,13 +247,13 @@
 		$('.chat-rooms ul li[data-roomId="' + name + '"]').remove();
 		// if announce is true, show a message about this room
 		if(announce){
-			insertMessage(serverDisplayName, 'The room `' + name + '` destroyed...', true, false, true);
+			insertMessage2(serverDisplayName, 'The room `' + name + '` destroyed...', true, false, true);
 		}
 	}
 
 	// add a client to the clients list
 	function addClient(client, announce, isMe){
-		var $html = $.tmpl(tmplt.client, client);
+		/*var $html = $.tmpl(tmplt.client, client);
 		
 		// if this is our client, mark him with color
 		if(isMe){
@@ -246,9 +262,9 @@
 
 		// if announce is true, show a message about this client
 		if(announce){
-			insertMessage(serverDisplayName, client.nickname + ' has joined the room...', true, false, true);
+			insertMessage2(serverDisplayName, client.nickname + ' has joined the room...', true, false, true);
 		}
-		$html.appendTo('.chat-clients ul')
+		$html.appendTo('.chat-clients ul')*/
 	}
 
 	// remove a client from the clients list
@@ -257,7 +273,7 @@
 		
 		// if announce is true, show a message about this room
 		if(announce){
-			insertMessage(serverDisplayName, client.nickname + ' has left the room...', true, false, true);
+			insertMessage2(serverDisplayName, client.nickname + ' has left the room...', true, false, true);
 		}
 	}
 
@@ -266,8 +282,8 @@
 	// room he just created, if he trying to create a room with the same
 	// name like another room, then the server will subscribe the user
 	// to the existing room
-	function createRoom2(){
-		var room = $nickname
+	function createRoom(){
+		var room = prompt("Dame el nombre del nuevo Room","room1");
 		if(room && room.length <= ROOM_MAX_LENGTH && room != currentRoom){
 			
 			// show room creating message
@@ -279,7 +295,7 @@
 
 			// create and subscribe to the new room
 			socket.emit('subscribe', { room: room });
-			Avgrund.hide();
+			//Avgrund.hide();
 		}
 	}
 
@@ -306,7 +322,6 @@
 	function handleMessage2(){
 		var message = $('.mchat').val().trim();		
 		var connection = $('.btn').val();
-
 		if (connection == "false") {
 			$('.btn').val('true');
 			handleNickname2();
@@ -330,16 +345,16 @@
 		// know that this is our message in the chat window
 		/*if(isMe){
 			$html.addClass('marker');
-		}
+		}*/
 
 		// if isServer is true, mark this message as a server
 		// message
 		if(isServer){
-			$html.find('.sender').css('color', serverDisplayColor);
-		}*/
+			$('.chatlog').val($('.chatlog').val() + $ms);
+		}
 
 		//$html.appendTo('.chatlog');
-		$('.chatlog').val($('.chatlog').val() + $ms);
+		$('.chatlog').val($('.chatlog').val() + getTime() + " " + $ms);
 		$('.chatlog').animate({ scrollTop: $('.chatlog').height() }, 100);
 	}
 
