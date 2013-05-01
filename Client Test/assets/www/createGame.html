@@ -22,49 +22,113 @@
                 }
             </style>
             <script type="text/javascript">
-            jQuery(document).ready(function() {
-                jQuery('#mycarousel').jcarousel({
-                    start: 3
+                jQuery(document).ready(function() {
+                    jQuery('#mycarousel').jcarousel({
+                        visible: 4
+                    });
                 });
-            });
+                jQuery(document).ready(function() {
+                    jQuery('#npccarousel').jcarousel({
+                        visible: 4
+                    });
+                });
             </script>
+            <style type="text/css">
+
+                /**
+                 * Overwrite for having a carousel with dynamic width.
+                 */
+                .jcarousel-skin-tango .jcarousel-container-horizontal {
+                    width: 425px;
+                    margin-left: 100px;
+                }
+
+                .jcarousel-skin-tango .jcarousel-clip-horizontal {
+                    width: 100%;
+                }
+
+                .jcarousel-skin-tango .jcarousel-item {
+                    width: 100px;
+                    height: 100px;
+                }                
+                </style>
             <title>Creating New Game</title>
         </head>
         <body>
             <div class="row"><!--Open row1-->
                 <div class = "span14"><!--Open span14-->
-                    <div id = "grid" class="span13">
-                        <script>
-                            console.log("Grid initialiting");
-                            var grid = new Grid(6,10,"img/map.jpg");
-                            grid.setBackground('img/game-map.jpg');
-                        </script>
-                        <!-- <ul id = "mycarousel" class="jcarousel-tango">
-                            <li><img src="img/body.png" width="40" height="40" alt="" /></li>
-                        </ul>-->
-                    </div>   
+                    <divclass = "row">
+                        <div class="span1">
+                            <a id="next" href="#" class="btn">Next</a>
+                            <a id="finish" href="#" class="btn">Finish</a>
+                        </div>
+                        <div id = "grid" class="span13">
+                            <script>
+                                console.log("Grid initialiting");
+                                var grid = new Grid(6,10,"img/map.jpg");
+                            </script>
+                            <!-- <ul id = "mycarousel" class="jcarousel-tango">
+                                <li><img src="img/body.png" width="40" height="40" alt="" /></li>
+                            </ul>-->
+                        </div>
+                    </div><!--close row2-->   
                 </div><!--close span14-->
             </div><!--close row1-->
 
-
-
             <div id="wrap">
               <ul id="mycarousel" class="jcarousel-skin-tango">
-                <li><img src="http://static.flickr.com/66/199481236_dc98b5abb3_s.jpg" width="75" height="75" alt="" /></li>
-                <li><img src="http://static.flickr.com/75/199481072_b4a0d09597_s.jpg" width="75" height="75" alt="" /></li>
-                <li><img src="http://static.flickr.com/57/199481087_33ae73a8de_s.jpg" width="75" height="75" alt="" /></li>
-                <li><img src="http://static.flickr.com/77/199481108_4359e6b971_s.jpg" width="75" height="75" alt="" /></li>
-                <li><img src="http://static.flickr.com/58/199481143_3c148d9dd3_s.jpg" width="75" height="75" alt="" /></li>
-                <li><img src="http://static.flickr.com/72/199481203_ad4cdcf109_s.jpg" width="75" height="75" alt="" /></li>
-                <li><img src="http://static.flickr.com/58/199481218_264ce20da0_s.jpg" width="75" height="75" alt="" /></li>
-                <li><img src="http://static.flickr.com/69/199481255_fdfe885f87_s.jpg" width="75" height="75" alt="" /></li>
-                <li><img src="http://static.flickr.com/60/199480111_87d4cb3e38_s.jpg" width="75" height="75" alt="" /></li>
-                <li><img src="http://static.flickr.com/70/229228324_08223b70fa_s.jpg" width="75" height="75" alt="" /></li>
+                <li><a href="#" id="1" class="background"><img src="img/map.jpg" width="100" height="100" alt="" /></a></li>
+                <li><a href="#" id="2" class="background"><img src="img/middle-earth-lord-of-the-rings-maps-in-books.jpg" width="100" height="100" alt="" /></a></li>
+                <li><a href="#" id="3" class="background"><img src="img/game-map.jpg" width="100" height="100" alt="" /></a></li>
               </ul>
+            </div>
 
+            <div id="wrap2">
+              <ul id="npccarousel" class="jcarousel-skin-tango">
+                <li><a href="#" id="1" class="npc"><img src="img/face.png" width="100" height="100" alt="" /></a></li>
+                <li><a href="#" id="2" class="npc"><img src="img/body.png" width="100" height="100" alt="" /></a></li>
+              </ul>
             </div>
 
             <!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>-->
+            <script type="text/javascript">
+                flagAdd = false;
+                $(document).ready(function(){
+                    $('.background').click(function(){
+                        //console.log($(this).find('img').attr('src'));
+                        grid.setBackground($(this).find('img').attr('src'));
+                        var map = $(this).find('img').attr('src');
+                    });
+
+                    $('.npc').click(function (){
+                        npc = $(this).find('img').attr('src');
+                        flagAdd = true;
+                    });
+                });
+            </script>
+            <script type="text/javascript">
+                $(document).ready(function (){
+                    $('#wrap2').hide();
+                    $('#finish').hide();
+                    $('#next').click(function (){
+                        $('#wrap').hide();
+                        $('#wrap2').show();
+                        $('#next').hide();
+                        $('#finish').show();
+                        grid.createCells();
+                        var cells = grid.getCells();
+                        cells.click(function (){
+                            if (flagAdd){
+                                grid.addCharacter(npc,this.data('id'));
+                                flagAdd = false;
+                            }
+                        });
+                    });
+                    $('#finish').click(function(){
+                        grid.returnJson();
+                    });
+                });
+            </script>
             <script type="text/javascript" src="js/jquery.tmpl.min.js"></script>
             <script type="text/javascript" src="js/socket.io.js"></script>
             <script type="text/javascript" src="js/chat.io.js"></script>
