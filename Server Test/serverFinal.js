@@ -1,3 +1,10 @@
+/*
+////////////////////////////////////////////////////
+* 													|
+* MOTOR												|
+*													|
+*////////////////////////////////////////////////////
+
 //Requaring observer
 var observer = require('./observer.js');
 //var main = require('./main.js');
@@ -16,6 +23,9 @@ var server		= require('http').createServer(),
 // listening to port...
 server.listen(port);
 
+// show a message in console
+console.log('Chat server is running and listening to port %d...', port);
+
 // sets the log level of socket.io, with
 // log level 2 we wont see all the heartbits
 // of each socket but only the handshakes and
@@ -32,6 +42,13 @@ io.set('transports', [ 'websocket', 'xhr-polling' ]);
 // socket.io events, each connection goes through here
 // and each event is emited in the client.
 // I created a function to handle each event
+
+/*
+////////////////////////////////////////////////////
+* 													|
+* Events											|
+*													|
+*////////////////////////////////////////////////////
 io.sockets.on('connection', function(socket){
 	
 	// after connection, the client sends us the 
@@ -81,10 +98,6 @@ io.sockets.on('connection', function(socket){
 	});
 });
 
-function updateGrid(socket,data){
-	obs.warning(socket,data);
-}
-
 // create a client for the socket
 function connect(socket, data){
 	//generate clientId
@@ -132,6 +145,13 @@ function disconnect(socket){
 	delete chatClients[socket.id];
 }
 
+/*
+////////////////////////////////////////////////////
+* 													|
+* Chat												|
+*													|
+*////////////////////////////////////////////////////
+
 // receive chat message from a client and
 // send it to the relevant room
 function chatmessage(socket, data){
@@ -140,6 +160,13 @@ function chatmessage(socket, data){
 	// the sender himself
 	socket.broadcast.to(data.room).emit('chatmessage', { client: chatClients[socket.id], message: data.message, room: data.room });
 }
+
+/*
+////////////////////////////////////////////////////
+* 													|
+* Gestion_juego										|
+*													|
+*////////////////////////////////////////////////////
 
 // subscribe a client to a room
 function subscribe(socket, data){
@@ -227,6 +254,20 @@ function countClientsInRoom(room){
 	return 0;
 }
 
+
+// unique id generator
+function generateId(){
+	var S4 = function () {
+		return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+	};
+	return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+}
+
+
+function updateGrid(socket,data){
+	obs.warning(socket,data);
+}
+
 // updating all other clients when a client goes
 // online or offline. 
 function updatePresence(room, socket, state){
@@ -239,14 +280,3 @@ function updatePresence(room, socket, state){
 	// the sender himself
 	socket.broadcast.to(room).emit('presence', { client: chatClients[socket.id], state: state, room: room });
 }
-
-// unique id generator
-function generateId(){
-	var S4 = function () {
-		return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
-	};
-	return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
-}
-
-// show a message in console
-console.log('Chat server is running and listening to port %d...', port);

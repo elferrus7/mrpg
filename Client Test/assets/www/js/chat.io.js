@@ -50,10 +50,14 @@
 		});
 
 		$('#finish').on('click', function(){
-			jason = grid.returnJson();
-			console.log(JSON.stringify(jason));
+			//jason = grid.returnJson();
+			//console.log(JSON.stringify(jason));
             socket.emit('createGame',JSON.stringify(jason));
         });
+
+		$('#login').on('click', function(){
+			socket.emit('login', {username: $('inputUsername').val(), password:$('inputPassword').val()});
+		});
 		/*$('.big-button-green.start').on('click', function(){
 			$('#nickname-popup .input input').val('');
 			Avgrund.show('#nickname-popup');

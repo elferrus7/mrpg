@@ -13,7 +13,7 @@ function DB(){
 function DB.prototype.User = function () {
 
 	var UserSchema = mongoose.Schema({
-    	name: String
+    	username: String
     	password: String
 	})
 	var UserModel = mongoose.model('User', UserSchema);
@@ -27,10 +27,14 @@ function DB.prototype.saveUser = function (user){
 	});
 }
 
-function DB.prototype.findUser = function (pass){
-	UserModel.find({password: /pass/},function (err, user) {
+function DB.prototype.findUser = function (username){
+	UserModel.find({password: /username/},function (err, user) {
 		if(err)
 			console.log('Error saving User');
 		return user
 	});
+}
+
+exports.createDB = function(){
+	return DB();
 }
