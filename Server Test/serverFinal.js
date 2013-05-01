@@ -6,7 +6,7 @@ var obs = observer.createObserver();
 // creating global parameters and start
 // listening to 'port', we are creating an express
 // server and then we are binding it with socket.io
-var server  	= require('http').createServer(),
+var server		= require('http').createServer(),
     io      	= require('socket.io').listen(server),
     port    	= 8080,
     // hash object to save clients data,
@@ -38,6 +38,11 @@ io.sockets.on('connection', function(socket){
 	// nickname through the connect event
 	socket.on('connect', function(data){
 		connect(socket, data);
+	});
+
+	// Request server games
+	socket.on('requestList', function(data){
+		socket.emit('displaylist', { rooms: getRooms() });
 	});
 
 	// when a client sends a messgae, he emits
