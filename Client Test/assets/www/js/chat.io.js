@@ -34,7 +34,7 @@
 		});
 
 		$('.submitbtn').on('click', function(){
-			handleMessage2();
+			handleMessage3();
 		});
 
 		$('.connect').on('click', function(){
@@ -180,6 +180,7 @@
 			
 			// announce a welcome message
 			insertMessage2(serverDisplayName, 'Welcome to the room: `' + data.room + '`... enjoy!', true, false, true);
+			insertMessage2(serverDisplayName, data.chatlogs , true, false, true);
 			$('.chat-clients ul').empty();
 			
 			// add the clients to the clients list
@@ -329,7 +330,7 @@
 
 	// handle the client messages
 	function handleMessage2(){
-		var message = $('.mchat').val().trim();		
+		var message = $('.mchat').val().trim();	
 		var connection = $('#btn').val();
 		if (connection == "false") {
 			$('.btn').val('true');
@@ -339,6 +340,19 @@
 
 			// send the message to the server with the room name
 			socket.emit('chatmessage', { message: message, room: currentRoom });
+			
+			// display the message in the chat window
+			insertMessage2(nickname, message, true, true);
+			$('.mchat').val('');
+		}
+	}
+
+	function handleMessage3(){
+		var message = $('.mchat').val().trim();	
+		if(message){
+
+			// send the message to the server with the room name
+			socket.emit('chatmessage', { message: message, room: currentRoom, names: nickname, hour: getTime() });
 			
 			// display the message in the chat window
 			insertMessage2(nickname, message, true, true);

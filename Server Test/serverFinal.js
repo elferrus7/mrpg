@@ -25,6 +25,8 @@ server.listen(port);
 
 // show a message in console
 console.log('Chat server is running and listening to port %d...', port);
+//Arreglo de chatlogs de todos los rooms
+chatLog = new Object();
 
 // sets the log level of socket.io, with
 // log level 2 we wont see all the heartbits
@@ -75,9 +77,9 @@ io.sockets.on('connection', function(socket){
 		updateGrid(socket,data);
 	});
 	
-	sockets.on('createGame', function(data){
+	/*sockets.on('createGame', function(data){
 		console.log(data);
-	});
+	});*/
 
 	// client subscribtion to a room
 	socket.on('subscribe', function(data){
@@ -155,6 +157,13 @@ function disconnect(socket){
 // receive chat message from a client and
 // send it to the relevant room
 function chatmessage(socket, data){
+	// Add it to the chat log
+	var log = "\n" + data.hour + "  " + data.names + ": " + data.message;
+	if(data.room != null || data.room != ""){
+		aux = data.room;
+		chatLog[aux] += log;
+	}
+
 	// by using 'socket.broadcast' we can send/emit
 	// a message/event to all other clients except
 	// the sender himself
@@ -186,9 +195,12 @@ function subscribe(socket, data){
 	// presence
 	updatePresence(data.room, socket, 'online');
 
+	// Auxiliar para el data.room
+	aux = data.room;
+
 	// send to the client a list of all subscribed clients
 	// in this room
-	socket.emit('roomclients', { room: data.room, clients: getClientsInRoom(socket.id, data.room) });
+	socket.emit('roomclients', { room: data.room, clients: getClientsInRoom(socket.id, data.room), chatlogs: this.chatLog[aux] }); 
 }
 
 // unsubscribe a client from a room, this can be
