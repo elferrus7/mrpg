@@ -34,7 +34,7 @@ Grid.prototype.addCharacter = function(src,cellid)
 						 + (cellid - (Math.floor(cellid / this.rows)) * this.rows ) * 50;
 	//console.log("Transforming to " + string);
 	characters[characters.length -1].transform(string);
-	this.jason.push({id:id,cell:cellid});
+	this.jason.push({id:id,cell:cellid,src:src});
 	//console.log("Character added in " + 5 + (Math.floor(cellid / this.rows)) * 55 + " , " + 5 + (cellid - (Math.floor(cellid / this.rows)) * this.rows ) * 55);
 	/*this.characters.click(function(){
 		console.log("you clicked " + this.data("id"));
@@ -63,9 +63,9 @@ Grid.prototype.updateGrid = function(sjason){
 
 Grid.prototype.returnJson= function(){
 	//console.log("Json enviado " + JSON.stringify(jason));
-	console.log("Return jason");
-	var str = JSON.stringify(this.jason)
-	console.log(str);
+	//console.log("Return jason");
+	//var str = JSON.stringify(this.jason)
+	//console.log(str);
 	return this.jason;
 }
 

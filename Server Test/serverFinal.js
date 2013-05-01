@@ -53,6 +53,10 @@ io.sockets.on('connection', function(socket){
 		updateGrid(socket,data);
 	});
 	
+	sockets.on('createGame', function(data){
+		console.log(data);
+	});
+
 	// client subscribtion to a room
 	socket.on('subscribe', function(data){
 		subscribe(socket, data);

@@ -12,7 +12,7 @@
 		currentRoom = null,
 
 		// server information
-		serverAddress = '10.25.64.208:8080',
+		serverAddress = '127.0.0.1:8000',
 		serverDisplayName = 'Server',
 		serverDisplayColor = '#1c5380';
 
@@ -22,7 +22,7 @@
 		/*$('.json').on('click', function(){
 			{ asd(); }
 		});*/
-	
+		
 		$('.cookie').on('click', function(){
 			{ WriteCookie(); }
 		});
@@ -49,6 +49,11 @@
 			createRoom();
 		});
 
+		$('#finish').on('click', function(){
+			jason = grid.returnJson();
+			console.log(JSON.stringify(jason));
+            socket.emit('createGame',JSON.stringify(jason));
+        });
 		/*$('.big-button-green.start').on('click', function(){
 			$('#nickname-popup .input input').val('');
 			Avgrund.show('#nickname-popup');
