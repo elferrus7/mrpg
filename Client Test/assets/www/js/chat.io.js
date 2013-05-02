@@ -56,7 +56,8 @@
         });
 
 		$('#login').on('click', function(){
-			socket.emit('login', {username: $('inputUsername').val(), password:$('inputPassword').val()});
+			handleNickname2();
+			socket.emit('login', {username: $('#inputUsername').val(), password:$('#inputPassword').val()});
 		});
 		/*$('.big-button-green.start').on('click', function(){
 			$('#nickname-popup .input input').val('');
@@ -217,6 +218,15 @@
 				addClient(data.client, true);
 			} else if(data.state == 'offline'){
 				removeClient(data.client, true);
+			}
+		});
+
+		socket.on('login',function(data){
+			console.log(data.bool);
+			if(data.bool){
+				window.location= 'index.html';
+			} else{
+				alert('GG ya perdimos');
 			}
 		});
 	}
