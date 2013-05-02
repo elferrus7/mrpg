@@ -10,6 +10,21 @@ var observer = require('./observer.js');
 //var main = require('./main.js');
 var obs = observer.createObserver();
 
+var database = require('./db.js');
+
+var db = database.createDB();
+db.User();
+db.saveUser({username:'milu',password:'tumama'});
+db.saveUser({username:'poke',password:'qwerty'});
+
+var juegos = new Array(); //Juegos por el momento
+						  //room: room con el que el juego esta relacionado
+						  //gamedata: información necesaria para el juego
+
+var users = new Array(); //Arreglo con todos los usuarios loggeados
+						 //username: 
+						 //socket: 
+
 // creating global parameters and start
 // listening to 'port', we are creating an express
 // server and then we are binding it with socket.io
@@ -77,10 +92,6 @@ io.sockets.on('connection', function(socket){
 		updateGrid(socket,data);
 	});
 	
-	/*sockets.on('createGame', function(data){
-		console.log(data);
-	});*/
-
 	// client subscribtion to a room
 	socket.on('subscribe', function(data){
 		subscribe(socket, data);
@@ -97,6 +108,16 @@ io.sockets.on('connection', function(socket){
 	// need to fire it manually
 	socket.on('disconnect', function(){
 		disconnect(socket);
+	});
+
+	socket.on('login', function(data){
+	console.log(data.username);
+		if(login(data.username,data.password)){
+			socket.emit('login',{bool:true});
+		}else{
+			socket.emit('login',{bool:false});
+		}
+
 	});
 });
 
@@ -150,6 +171,26 @@ function disconnect(socket){
 /*
 ////////////////////////////////////////////////////
 * 													|
+* Gestion de usuarios								|
+*													|
+*////////////////////////////////////////////////////
+
+function login(username,password){
+	var user = db.findUser(username);
+	if(user){
+		if(user.password == password){
+			users.push({username: username, socket:''});
+			return true;
+		} else {
+			console.log('GG ya perdimos');
+			return false;
+		}
+	}
+}
+
+/*
+////////////////////////////////////////////////////
+* 													|
 * Chat												|
 *													|
 *////////////////////////////////////////////////////
@@ -185,6 +226,7 @@ function subscribe(socket, data){
 	// check if this room is exist, if not, update all 
 	// other clients about this new room
 	if(rooms.indexOf('/' + data.room) < 0){
+		juegos.push({room:data.room, gamedata: data.jason}) 
 		socket.broadcast.emit('addroom', { room: data.room });
 	}
 

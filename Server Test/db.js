@@ -1,8 +1,8 @@
 function DB(){
-	var mongoose = require('mongoose');
-	mongoose.connect('mongodb://localhost/test');
+	this.mongoose = require('mongoose');
+	this.mongoose.connect('mongodb://localhost/test');
 
-	var db = mongoose.connection;
+	var db = this.mongoose.connection;
 	db.on('error', console.error.bind(console, 'connection error:'));
 	db.once('open', function callback () {
 		console.log("Database connected");
@@ -10,31 +10,40 @@ function DB(){
 	});
 }
 
-function DB.prototype.User = function () {
+DB.prototype.User = function () {
 
-	var UserSchema = mongoose.Schema({
-    	username: String
+	 this.UserSchema = this.mongoose.Schema({
+    	username: String,
     	password: String
 	})
-	var UserModel = mongoose.model('User', UserSchema);
+	this.UserModel = this.mongoose.model('User', this.UserSchema);
 }
 
-function DB.prototype.saveUser = function (user){
-	var user = new UserModel(user);
+DB.prototype.saveUser = function (user){
+	var user = new this.UserModel(user);
 	user.save(function (err,user){
 		if(err)
 			console.log('Error saving user');
 	});
 }
 
-function DB.prototype.findUser = function (username){
-	UserModel.find({password: /username/},function (err, user) {
-		if(err)
-			console.log('Error saving User');
-		return user
+DB.prototype.findUser = function (username){
+	console.log("usuario: "+username);
+	var query = this.UserModel.findOne({ username: /^username/ });
+	query.select('username');
+	query.exec( function (err,user){
+		console.log(user);
+		if (err) return null
+		
+		return user.username;
 	});
 }
 
+
 exports.createDB = function(){
-	return DB();
+	return new DB();
+}
+
+exports.createUser = function(){
+	return User();
 }
