@@ -242,9 +242,14 @@ function subscribe(socket, data){
 	// Auxiliar para el data.room
 	aux = data.room;
 
+	if(chatLog[aux] == null || chatLog[aux] == "" || chatLog[aux] == ''){
+		socket.emit('roomclients', { room: data.room, clients: getClientsInRoom(socket.id, data.room), chatlogs: "" }); 
+	}else{
 	// send to the client a list of all subscribed clients
 	// in this room
-	socket.emit('roomclients', { room: data.room, clients: getClientsInRoom(socket.id, data.room), chatlogs: this.chatLog[aux] }); 
+	socket.emit('roomclients', { room: data.room, clients: getClientsInRoom(socket.id, data.room), chatlogs: chatLog[aux] }); 
+	}
+
 }
 
 // unsubscribe a client from a room, this can be
