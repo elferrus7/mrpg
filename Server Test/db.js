@@ -29,11 +29,11 @@ DB.prototype.User = function () {
 
 }
 
-DB.prototype.saveUser = function (user){
-	var user = new this.UserModel(user);
-	user.save(function (err,user){
-		if(err)
-			console.log('Error saving user');
+DB.prototype.saveUser = function (u){
+	var usuario = new this.UserModel(u);
+
+	usuario.save(function (err,user){
+		if(err) console.log('Error saving user');
 
 		//console.log('user saved');
 		//console.log(user);
@@ -53,6 +53,7 @@ DB.prototype.findUser = function (username, cb){
 	//console.log('Doc finded');
 	//console.log(doc);
 	//return doc;
+	//console.log("afuera: "+doc);
 }
 
 

@@ -146,12 +146,30 @@
 			// Clear the rooms
 			$('.roomlog').val("");
 
+			var table = "<font color='white'> <table cellpadding='0' cellspacing='0' border='1' class='display' id='example'>";
+
+			//$('#dynamic').html( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="example">');
+
 			// loop through the rooms and display them
 			for(var i = 0, len = data.rooms.length; i < len; i++){
 				if(data.rooms[i] != ''){
-					$('.roomlog').val($('.roomlog').val() + data.rooms[i]+ "\n");
+					var aux = data.rooms[i].replace('/','');
+					table += "<tr id='"+ aux +"' class='game'> <th>"+ aux +"</th> </tr>";
+					$('.roomlog').val($('.roomlog').val() + aux + "\n");
 				}
 			}
+			table += "</table></font>";
+			document.getElementById("dynamic").innerHTML = table;	
+
+			$(".game").click(function(){
+				var gameroom = $(this).attr('id');
+				// unsubscribe from the current room
+				socket.emit('unsubscribe', { room: 'lobby' });
+
+				// create and subscribe to the new room
+				socket.emit('subscribe', { room: gameroom });
+			});
+		
 		});
 
 		// when someone sends a message, the sever push it to
@@ -315,7 +333,6 @@
 
 			// create and subscribe to the new room
 			socket.emit('subscribe', { room: room });
-			//Avgrund.hide();
 		}
 	}
 

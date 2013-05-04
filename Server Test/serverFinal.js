@@ -234,6 +234,7 @@ function subscribe(socket, data){
 
 	// subscribe the client to the room
 	socket.join(data.room);
+	console.log("now on "+data.room+" room");
 
 	// update all other clients about the online
 	// presence
