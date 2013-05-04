@@ -87,10 +87,12 @@ io.sockets.on('connection', function(socket){
 		chatmessage(socket, data);
 	});
 
+	// When a client sends a change on the grid, he emits
+	// this event, then the server forwards the message
+	// to other clients in the same room
 	socket.on('updateGrid',function(data){
 		//SE updeteo una GRID
-		console.log(data);
-		updateGrid(socket,data);
+		updateGrid(socket,data.json,data.room);
 	});
 	
 	// client subscribtion to a room
@@ -234,7 +236,6 @@ function subscribe(socket, data){
 
 	// subscribe the client to the room
 	socket.join(data.room);
-	console.log("now on "+data.room+" room");
 
 	// update all other clients about the online
 	// presence
@@ -326,8 +327,9 @@ function generateId(){
 }
 
 
-function updateGrid(socket,data){
-	obs.warning(socket,data);
+function updateGrid(socket,data,room){
+	obs.warning(socket,data,room);	
+	io.sockets.in(data.room).emit('popo');
 }
 
 // updating all other clients when a client goes

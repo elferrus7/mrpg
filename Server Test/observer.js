@@ -26,8 +26,9 @@ function GridClient(id,socket){
 	this.id = id;
 }
 
-GridClient.prototype.sendJson = function(jason){
-	this.socket.volatile.emit( 'updateGrid',jason);
+GridClient.prototype.sendJson = function(socket, jason, room){
+	//this.socket.volatile.emit( 'updateGrid',jason);
+	socket.broadcast.to(room).emit('updateGrid', jason);
 }
 
 exports.createGridClient = function(id,socket){
@@ -55,10 +56,10 @@ Observer.prototype.removeGrid = function(id){
 
 }
 
-Observer.prototype.warning = function(socket,jason){
+Observer.prototype.warning = function(socket,jason,room){
 	for(var i = 0; i < this.grids.length; i++){
 		if(this.grids[i].socket != socket){
-			this.grids[i].sendJson(jason);
+			this.grids[i].sendJson(socket, jason, room);
 		}
 	}
 }

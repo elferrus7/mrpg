@@ -30,7 +30,7 @@
 		$('.passTurn').on('click',function(){
 			jason = grid.returnJson();
 			//console.log(jason);
-			socket.emit('updateGrid',JSON.stringify(jason));
+			socket.emit('updateGrid',{ json: JSON.stringify(jason), room: currentRoom });
 		});
 
 		$('.submitbtn').on('click', function(){
@@ -200,7 +200,6 @@
 			// announce a welcome message
 			insertMessage2(serverDisplayName, 'Welcome to the room: `' + data.room + '`... enjoy!', true, false, true);
 			insertMessage2(serverDisplayName, data.chatlogs , true, false, true);
-			$('.chat-clients ul').empty();
 			
 			// add the clients to the clients list
 			addClient({ nickname: nickname, clientId: clientId }, false, true);
@@ -209,12 +208,6 @@
 					addClient(data.clients[i], false);
 				}
 			}
-
-			// hide connecting to room message message
-			$('.chat-shadow').animate({ 'opacity': 0 }, 200, function(){
-				$(this).hide();
-				$('.chat input').focus();
-			});
 		});
 		
 		// if someone creates a room the server updates us
@@ -291,7 +284,7 @@
 
 	// add a client to the clients list
 	function addClient(client, announce, isMe){
-		/*var $html = $.tmpl(tmplt.client, client);
+		var $html = $.tmpl(tmplt.client, client);
 		
 		// if this is our client, mark him with color
 		if(isMe){
@@ -302,7 +295,7 @@
 		if(announce){
 			insertMessage2(serverDisplayName, client.nickname + ' has joined the room...', true, false, true);
 		}
-		$html.appendTo('.chat-clients ul')*/
+		
 	}
 
 	// remove a client from the clients list
@@ -402,10 +395,8 @@
 		if(isServer){
 			//$('.chatlog').val($('.chatlog').val() + $ms);
 		}else{
-
-		//$html.appendTo('.chatlog');
-		$('.chatlog').val($('.chatlog').val() + getTime() + " " + $ms);
-		$('.chatlog').animate({ scrollTop: $('.chatlog').height() }, 100);
+			$('.chatlog').val($('.chatlog').val() + getTime() + " " + $ms);
+			$('.chatlog').animate({ scrollTop: $('.chatlog').height() }, 100);
 		}
 	}
 
