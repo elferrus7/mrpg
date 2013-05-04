@@ -14,17 +14,16 @@ var database = require('./db.js');
 
 var db = database.createDB();
 db.User();
-//db.saveUser({username:'milu',password:'tumama'});
-//db.saveUser({username:'poke',password:'qwerty'});
-db.findUser('milu',login(null,null,'tumama'));
+var users = new Array(); //Arreglo con todos los usuarios loggeados
+						 //username: 
+						 //socket: 
+users.push({username:'fernando', socket:'socket'});
 
 var juegos = new Array(); //Juegos por el momento
 						  //room: room con el que el juego esta relacionado
 						  //gamedata: información necesaria para el juego
 
-var users = new Array(); //Arreglo con todos los usuarios loggeados
-						 //username: 
-						 //socket: 
+
 
 // creating global parameters and start
 // listening to 'port', we are creating an express
@@ -112,12 +111,7 @@ io.sockets.on('connection', function(socket){
 	});
 
 	socket.on('login', function(data){
-		if(login(data.username,data.password)){
-			socket.emit('login',{bool:true});
-		}else{
-			socket.emit('login',{bool:false});
-		}
-
+		login(data.username,data.password,socket);
 	});
 });
 
@@ -175,19 +169,26 @@ function disconnect(socket){
 *													|
 *////////////////////////////////////////////////////
 
-function login(err,user){
-	console.log('Login user');
-	console.log(user);
-	//var user = db.findUser(username);
-	if(user){
-		if(user.password == password){
-			users.push({username: username, socket:''});
-			return true;
-		} else {
-			console.log('GG ya perdimos');
-			return false;
-		}
+function login(username, password,socket){
+	var passwordtocompare = password;
+	var auth = function (err,user){
+		console.log('Login user');
+		console.log(user);
+		//var user = db.findUser(username);
+		console.log('passwordtocompare: ' + passwordtocompare);
+		console.log(users);
+		if(user){
+				if(user.password == passwordtocompare){
+					users.push({username: user.username, socket:''});
+					console.log('access granted');
+					socket.emit('login',{bool:true});
+				} else {
+					console.log('GG ya perdimos');
+					socket.emit('login',{bool:false});
+				}
+			}
 	}
+	db.findUser(username,auth);
 }
 
 /*

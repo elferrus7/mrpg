@@ -42,9 +42,11 @@ DB.prototype.saveUser = function (u){
 
 DB.prototype.findUser = function (username, cb){
 	//var doc = "";
+	console.log('Funcion a ejecutar');
 	console.log(cb);
 	var query = this.UserModel.findOne({ 'username': username });
 	query.exec(cb);
+
 	/*this.UserModel.findOne({ 'username': username }, function (err,user){
 		if(err) console.log('Error finding');
 		doc = user;
