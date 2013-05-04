@@ -53,7 +53,7 @@ DB.prototype.findUser = function (username, cb){
 	//console.log('Doc finded');
 	//console.log(doc);
 	//return doc;
-	console.log("afuera: "+doc);
+	//console.log("afuera: "+doc);
 }
 
 

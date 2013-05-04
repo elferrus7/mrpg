@@ -46,18 +46,27 @@ Esta función es llamada cuando se realiza un movimiento por parte de otro jugad
 */
 
 Grid.prototype.moveImage = function(charId,cellId){
+
 	string = "t" + (Math.floor(cellId / rows)) * 50 + "," // Calculando el numero de columnas de la posicion de la celda
 				 + (cellId - (Math.floor(cellId / rows)) * rows ) * 50; // Calculando Numero de fila de la posición de la celda
-	//console.log("Translating " + charid + " al cell "+ this.data("id") + " con " + string);
+	console.log("Translating " + charId  + " con " + string);
+	console.log("charId Data  "+characters[charId].data);
+	//console.log(" charactersID: "+characters);
+
+	//alert("charId: "+charId+" charactersID: "+characters);
 	characters[charId].transform(string);
+
+
 }
 
 Grid.prototype.updateGrid = function(sjason){
 	console.log("JSON recivido" + sjason);
 	ljason = JSON.parse(sjason);
-	console.log(ljason[1].id);
+	console.log("ID de background "+ljason[0].id);
 	for(var i in ljason){
-		this.moveImage(ljason[i].id, ljason[i].cell);
+		if(ljason[i].id != null){
+			this.moveImage(ljason[i].id, ljason[i].cell);
+		}
 	}
 }
 
