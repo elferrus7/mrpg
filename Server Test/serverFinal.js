@@ -17,7 +17,7 @@ db.User();
 var users = new Array(); //Arreglo con todos los usuarios loggeados
 						 //username: 
 						 //socket: 
-users.push({username:'fernando', socket:'socket'});
+//users.push({username:'fernando', socket:'socket'});
 
 var juegos = new Array(); //Juegos por el momento
 						  //room: room con el que el juego esta relacionado
@@ -174,18 +174,18 @@ function disconnect(socket){
 function login(username, password,socket){
 	var passwordtocompare = password;
 	var auth = function (err,user){
-		console.log('Login user');
-		console.log(user);
-		//var user = db.findUser(username);
-		console.log('passwordtocompare: ' + passwordtocompare);
-		console.log(users);
+		//console.log('Login user');
+		//console.log(user);
+		//console.log('passwordtocompare: ' + passwordtocompare);
+		//console.log(users);
 		if(user){
 				if(user.password == passwordtocompare){
 					users.push({username: user.username, socket:''});
-					console.log('access granted');
+					console.log(users);
+					//console.log('access granted');
 					socket.emit('login',{bool:true});
 				} else {
-					console.log('GG ya perdimos');
+					//console.log('GG ya perdimos');
 					socket.emit('login',{bool:false});
 				}
 			}
