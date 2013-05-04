@@ -176,7 +176,12 @@ function disconnect(socket){
 *////////////////////////////////////////////////////
 
 function login(username,password){
-	var user = db.findUser(username);
+	console.log("FINUSER: "+db.findUser(username));
+	return db.findUser(username);
+	/*console.log("username: "+ username);
+	var user = "";
+	user = db.findUser(username);
+	console.log("LOGIN: "+user);
 	if(user){
 		if(user.password == password){
 			users.push({username: username, socket:''});
@@ -185,7 +190,7 @@ function login(username,password){
 			console.log('GG ya perdimos');
 			return false;
 		}
-	}
+	}*/
 }
 
 /*
@@ -232,6 +237,7 @@ function subscribe(socket, data){
 
 	// subscribe the client to the room
 	socket.join(data.room);
+	console.log("now on "+data.room+" room");
 
 	// update all other clients about the online
 	// presence

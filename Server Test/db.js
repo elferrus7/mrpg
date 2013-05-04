@@ -19,24 +19,25 @@ DB.prototype.User = function () {
 	this.UserModel = this.mongoose.model('User', this.UserSchema);
 }
 
-DB.prototype.saveUser = function (user){
-	var user = new this.UserModel(user);
-	user.save(function (err,user){
-		if(err)
-			console.log('Error saving user');
+DB.prototype.saveUser = function (u){
+	var usuario = new this.UserModel(u);
+
+	usuario.save(function (err,user){
+		if(err) console.log('Error saving user');
 	});
 }
 
 DB.prototype.findUser = function (username){
-	console.log("usuario: "+username);
-	var query = this.UserModel.findOne({ username: /^username/ });
-	query.select('username');
-	query.exec( function (err,user){
-		console.log(user);
-		if (err) return null
-		
-		return user.username;
+	var doc = false;
+	this.UserModel.findOne({'username':'milu' }, function(err, user){
+		if(user != null){
+			doc = true;
+		}
+		console.log("ADENTRO: "+doc);
+
+	return doc;
 	});
+	console.log("afuera: "+doc);
 }
 
 
