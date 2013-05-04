@@ -14,8 +14,9 @@ var database = require('./db.js');
 
 var db = database.createDB();
 db.User();
-db.saveUser({username:'milu',password:'tumama'});
-db.saveUser({username:'poke',password:'qwerty'});
+//db.saveUser({username:'milu',password:'tumama'});
+//db.saveUser({username:'poke',password:'qwerty'});
+db.findUser('milu',login(null,null,'tumama'));
 
 var juegos = new Array(); //Juegos por el momento
 						  //room: room con el que el juego esta relacionado
@@ -111,7 +112,6 @@ io.sockets.on('connection', function(socket){
 	});
 
 	socket.on('login', function(data){
-	console.log(data.username);
 		if(login(data.username,data.password)){
 			socket.emit('login',{bool:true});
 		}else{
@@ -175,8 +175,10 @@ function disconnect(socket){
 *													|
 *////////////////////////////////////////////////////
 
-function login(username,password){
-	var user = db.findUser(username);
+function login(err,user){
+	console.log('Login user');
+	console.log(user);
+	//var user = db.findUser(username);
 	if(user){
 		if(user.password == password){
 			users.push({username: username, socket:''});
