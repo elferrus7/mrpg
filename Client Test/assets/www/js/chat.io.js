@@ -34,7 +34,7 @@
 		});
 
 		$('.submitbtn').on('click', function(){
-			handleMessage3();
+			handleMessage();
 		});
 
 		$('.connect').on('click', function(){
@@ -168,6 +168,7 @@
 
 				// create and subscribe to the new room
 				socket.emit('subscribe', { room: gameroom });
+				window.location = "index.html";
 			});
 		
 		});
@@ -179,7 +180,7 @@
 			var message = data.message;
 			
 			//display the message in the chat window
-			insertMessage2(nickname, message, true, false, false);
+			insertMessage(nickname, message, true, false, false);
 		});
 		
 		socket.on('updateGrid',function(data){
@@ -198,9 +199,12 @@
 			setCurrentRoom(data.room);
 			
 			// announce a welcome message
-			insertMessage2(serverDisplayName, 'Welcome to the room: `' + data.room + '`... enjoy!', true, false, true);
-			insertMessage2(serverDisplayName, data.chatlogs , true, false, true);
+			insertMessage(serverDisplayName, 'Welcome to the room: `' + data.room + '`... enjoy!', true, false, true);
 			
+			if(data.chatlogs != null || data.chatlogs != ""){
+				insertMessage(serverDisplayName, data.chatlogs , true, false, true);
+			}
+
 			// add the clients to the clients list
 			addClient({ nickname: nickname, clientId: clientId }, false, true);
 			for(var i = 0, len = data.clients.length; i < len; i++){
@@ -268,7 +272,7 @@
 			$.tmpl(tmplt.room, { room: name }).appendTo('.chat-rooms ul');
 			// if announce is true, show a message about this room
 			if(announce){
-				//insertMessage2(serverDisplayName, 'The room `' + name + '` created...', true, false, true);
+				//insertMessage(serverDisplayName, 'The room `' + name + '` created...', true, false, true);
 			}
 		}*/
 	}
@@ -278,22 +282,22 @@
 		$('.chat-rooms ul li[data-roomId="' + name + '"]').remove();
 		// if announce is true, show a message about this room
 		if(announce){
-			insertMessage2(serverDisplayName, 'The room `' + name + '` destroyed...', true, false, true);
+			insertMessage(serverDisplayName, 'The room `' + name + '` destroyed...', true, false, true);
 		}
 	}
 
 	// add a client to the clients list
 	function addClient(client, announce, isMe){
-		var $html = $.tmpl(tmplt.client, client);
+		/*var $html = $.tmpl(tmplt.client, client);
 		
 		// if this is our client, mark him with color
 		if(isMe){
 			$html.addClass('me');
 		}
-
+		*/
 		// if announce is true, show a message about this client
 		if(announce){
-			insertMessage2(serverDisplayName, client.nickname + ' has joined the room...', true, false, true);
+			insertMessage(serverDisplayName, client.nickname + ' has joined the room...', true, false, true);
 		}
 		
 	}
@@ -304,7 +308,7 @@
 		
 		// if announce is true, show a message about this room
 		if(announce){
-			insertMessage2(serverDisplayName, client.nickname + ' has left the room...', true, false, true);
+			insertMessage(serverDisplayName, client.nickname + ' has left the room...', true, false, true);
 		}
 	}
 
@@ -349,25 +353,7 @@
 	}
 
 	// handle the client messages
-	function handleMessage2(){
-		var message = $('.mchat').val().trim();	
-		var connection = $('#btn').val();
-		if (connection == "false") {
-			$('.btn').val('true');
-			handleNickname2();
-		}
-		if(message){
-
-			// send the message to the server with the room name
-			socket.emit('chatmessage', { message: message, room: currentRoom });
-			
-			// display the message in the chat window
-			insertMessage2(nickname, message, true, true);
-			$('.mchat').val('');
-		}
-	}
-
-	function handleMessage3(){
+	function handleMessage(){
 		var message = $('.mchat').val().trim();	
 		if(message){
 
@@ -375,14 +361,14 @@
 			socket.emit('chatmessage', { message: message, room: currentRoom, names: nickname, hour: getTime() });
 			
 			// display the message in the chat window
-			insertMessage2(nickname, message, true, true);
+			insertMessage(nickname, message, true, true);
 			$('.mchat').val('');
 		}
 	}
 
 	// insert a message to the chat window, this function can be
 	// called with some flags
-	function insertMessage2(sender, message, showTime, isMe, isServer){
+	function insertMessage(sender, message, showTime, isMe, isServer){
 		var $ms = sender + ": " + message+"\n";
 		// if isMe is true, mark this message so we can
 		// know that this is our message in the chat window
@@ -393,33 +379,11 @@
 		// if isServer is true, mark this message as a server
 		// message
 		if(isServer){
-			//$('.chatlog').val($('.chatlog').val() + $ms);
+			$('.chatlog').val($('.chatlog').val() + $ms);
 		}else{
 			$('.chatlog').val($('.chatlog').val() + getTime() + " " + $ms);
 			$('.chatlog').animate({ scrollTop: $('.chatlog').height() }, 100);
 		}
-	}
-
-	function insertMessage(sender, message, showTime, isMe, isServer){
-		var $html = $.tmpl(tmplt.message, {
-			sender: sender,
-			text: message,
-			time: showTime ? getTime() : ''
-		});
-
-		// if isMe is true, mark this message so we can
-		// know that this is our message in the chat window
-		if(isMe){
-			$html.addClass('marker');
-		}
-
-		// if isServer is true, mark this message as a server
-		// message
-		if(isServer){
-			$html.find('.sender').css('color', serverDisplayColor);
-		}
-		$html.appendTo('.chat-messages ul');
-		$('.chat-messages').animate({ scrollTop: $('.chat-messages ul').height() }, 100);
 	}
 
 	// return a short time format for the messages

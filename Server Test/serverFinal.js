@@ -23,7 +23,8 @@ var juegos = new Array(); //Juegos por el momento
 						  //room: room con el que el juego esta relacionado
 						  //gamedata: información necesaria para el juego
 
-
+// Chatlog of every room
+chatLog = new Object();
 
 // creating global parameters and start
 // listening to 'port', we are creating an express
@@ -40,8 +41,6 @@ server.listen(port);
 
 // show a message in console
 console.log('Chat server is running and listening to port %d...', port);
-//Arreglo de chatlogs de todos los rooms
-chatLog = new Object();
 
 // sets the log level of socket.io, with
 // log level 2 we wont see all the heartbits
@@ -83,6 +82,7 @@ io.sockets.on('connection', function(socket){
 	// this event, then the server forwards the
 	// message to other clients in the same room
 	socket.on('chatmessage', function(data){
+
 		chatmessage(socket, data);
 	});
 
@@ -246,7 +246,8 @@ function subscribe(socket, data){
 	aux = data.room;
 
 	if(chatLog[aux] == null || chatLog[aux] == "" || chatLog[aux] == ''){
-		socket.emit('roomclients', { room: data.room, clients: getClientsInRoom(socket.id, data.room), chatlogs: "" }); 
+		chatLog[aux] += " level of experience"
+		socket.emit('roomclients', { room: data.room, clients: getClientsInRoom(socket.id, data.room), chatlogs: "level of experience" }); 
 	}else{
 	// send to the client a list of all subscribed clients
 	// in this room
