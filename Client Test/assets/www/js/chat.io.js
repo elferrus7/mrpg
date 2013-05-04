@@ -56,8 +56,16 @@
         });
 
 		$('#login').on('click', function(){
-			handleNickname2();
-			socket.emit('login', {username: $('#inputUsername').val(), password:$('#inputPassword').val()});
+			var username = $('#inputUsername').val()
+			sessionStorage.username = username
+			handleUsername(username);
+			socket.emit('login', {username: username, password:$('#inputPassword').val()});
+		});
+
+		$('.chat-rooms').on('click', function(){
+			console.log('username '+ sessionStorage.username);
+			handleUsername(sessionStorage.username);
+            socket.emit('requestList');
 		});
 		/*$('.big-button-green.start').on('click', function(){
 			$('#nickname-popup .input input').val('');
@@ -239,9 +247,9 @@
 		socket.on('login',function(data){
 			console.log(data.bool);
 			if(data.bool){
-				window.location= 'index.html';
+				window.location = 'joinGame.html';
 			} else{
-				alert('GG ya perdimos');
+				alert('Try another Username/Password');
 			}
 		});
 	}
@@ -294,7 +302,7 @@
 		if(isMe){
 			$html.addClass('me');
 		}
-		*/
+*/
 		// if announce is true, show a message about this client
 		if(announce){
 			insertMessage(serverDisplayName, client.nickname + ' has joined the room...', true, false, true);
@@ -346,6 +354,13 @@
 	function handleNickname2(){
 		var user = prompt("Dame tu username","nickname");
 		var nick = user;
+		if(nick && nick.length <= NICK_MAX_LENGTH){
+			nickname = nick;
+			connect();
+		}
+	}
+
+	function handleUsername(nick){
 		if(nick && nick.length <= NICK_MAX_LENGTH){
 			nickname = nick;
 			connect();

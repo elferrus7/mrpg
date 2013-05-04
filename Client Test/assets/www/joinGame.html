@@ -10,7 +10,7 @@
                     background-repeat:repeat
                 }
             </style>
-            <title>Creating New Game</title>
+            <title>Lobby</title>
         </head>
         <body id="connect">
         	<center>
@@ -20,6 +20,7 @@
 				</div>
 				<ul></ul>
 			</div>
+            <input type="submit" value="Create Game" class="create"/> 
 			<input type="submit" value="Connect" class="connect"/> 
 			<input type="submit" value="Refresh" class="rooms"/> <br/>
 
@@ -28,7 +29,11 @@
             <script type="text/javascript" src="js/jquery.min.js"></script>
             <script type="text/javascript" src="js/socket.io.js"></script>
             <script type="text/javascript" src="js/chat.io.js"></script>
-
+            <script type="text/javascript">
+                $(document).ready(function (){
+                    $('.chat-rooms').click(); //Autofire event
+                });
+            </script>
             <script type="text/javascript" src="cordova-2.4.0.js"></script>
             <script type="text/javascript" src="js/index.js"></script>
             <script type="text/javascript">
