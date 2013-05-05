@@ -63,9 +63,17 @@
 		});
 
 		$('.chat-rooms').on('click', function(){
-			console.log('username '+ sessionStorage.username);
+			//console.log('username '+ sessionStorage.username);
 			handleUsername(sessionStorage.username);
             socket.emit('requestList');
+		});
+
+		$('#game').on('click',function (){
+			handleUsername(sessionStorage.username);
+			socket.emit('unsubscribe', { room: 'lobby' });
+			// create and subscribe to the new room
+			console.log('room: ' + sessionStorage.room);
+			socket.emit('subscribe', { room: sessionStorage.room });
 		});
 		/*$('.big-button-green.start').on('click', function(){
 			$('#nickname-popup .input input').val('');
@@ -175,7 +183,8 @@
 				socket.emit('unsubscribe', { room: 'lobby' });
 
 				// create and subscribe to the new room
-				socket.emit('subscribe', { room: gameroom });
+				sessionStorage.room = gameroom;
+				//socket.emit('subscribe', { room: gameroom });
 				window.location = "index.html";
 			});
 		

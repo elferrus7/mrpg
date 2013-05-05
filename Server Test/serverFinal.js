@@ -14,6 +14,9 @@ var database = require('./db.js');
 
 var db = database.createDB();
 db.User();
+/*db.findUser('poke',function (err,user){
+	console.log(user);
+});*/
 var users = new Array(); //Arreglo con todos los usuarios loggeados
 						 //username: 
 						 //socket: 
