@@ -50,9 +50,13 @@
 		});
 
 		$('#finish').on('click', function(){
-			//jason = grid.returnJson();
-			//console.log(JSON.stringify(jason));
-            socket.emit('createGame',JSON.stringify(jason));
+			handleUsername(sessionStorage.username);
+			data = {
+				room:'newgame',
+				jason: grid.returnJson()
+			};
+			console.log(data);
+            socket.emit('createGame', data);
         });
 
 		$('#login').on('click', function(){
@@ -75,6 +79,7 @@
 			console.log('room: ' + sessionStorage.room);
 			socket.emit('subscribe', { room: sessionStorage.room });
 		});
+
 		/*$('.big-button-green.start').on('click', function(){
 			$('#nickname-popup .input input').val('');
 			Avgrund.show('#nickname-popup');

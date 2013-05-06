@@ -118,6 +118,10 @@ io.sockets.on('connection', function(socket){
 	socket.on('login', function(data){
 		login(data.username,data.password,socket);
 	});
+
+	socket.on('createGame', function(data){
+		subscribe(scoket,data);
+	});
 });
 
 // create a client for the socket
