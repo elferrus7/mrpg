@@ -14,7 +14,9 @@ var database = require('./db.js');
 
 var db = database.createDB();
 db.User();
-/*db.findUser('jorge',function (err,user){
+//db.saveUser({username:'paco',password:'winiwineo'});
+/*db.findUser('paco',function (err,user){
+	console.log('finding');
 	console.log(user);
 });*/
 var users = new Array(); //Arreglo con todos los usuarios loggeados
@@ -135,7 +137,7 @@ io.sockets.on('connection', function(socket){
 	// in the database
 	socket.on('sign', function(data){
 		console.log("WWTTFF");
-		signup(data.usr, data.pwd);
+		signup(data.usr, data.pwd,socket);
 	});
 
 	// when a client has passed turn waiting
@@ -229,7 +231,7 @@ function login(username, password,socket){
 	db.findUser(username,auth);
 }
 
-function signup(usr, pwd){
+function signup(usr, pwd,socket){
 	console.log(usr+" "+pwd);
 	if(usr.length <= 15){
 		db.saveUser( {username: usr, password: pwd} );
