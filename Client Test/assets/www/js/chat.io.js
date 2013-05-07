@@ -13,7 +13,7 @@
 		currentRoom = null,
 
 		// server information
-		serverAddress = '10.25.78.137:8080',
+		serverAddress = '127.0.0.1:8080',
 		serverDisplayName = 'Server',
 		serverDisplayColor = '#1c5380';
 
@@ -92,6 +92,7 @@
 			var username = $('#inputUsername').val();
 			sessionStorage.username = username;
 			handleUsername(username, "lobby");
+
 			console.log("Loginname "+username)
 			socket.emit('login', {username: username, password:$('#inputPassword').val()});
 		});
@@ -101,7 +102,7 @@
 			var password = $('#password').val();
 			handleUsername(username, "lobby");
 
-			
+			console.log('username' + username + ' passowrd ' + password);
 			socket.emit('sign', {usr: $('#username').val(), pwd: $('#password').val()});
 		});
 		
@@ -269,7 +270,7 @@
 
 		socket.on('signup',function(data){
 			if(data.bool){
-				window.location = 'login.html';
+				//window.location = 'login.html';
 			} else{
 				alert('Try another Username/Password');
 			}
