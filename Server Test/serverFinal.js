@@ -146,7 +146,7 @@ io.sockets.on('connection', function(socket){
 		socket.broadcast.to(data.room).emit('nextTurn', {clients: getClientsInRoom(socket.id, data.room), passed: passTurn(getClientsInRoom(socket.id, data.room), data.username, data.faltan) }); 
 	});
 
-
+	socket.on('createGame',);
 
 });
 

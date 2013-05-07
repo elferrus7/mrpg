@@ -80,9 +80,11 @@
 
 		$('#finish').on('click', function(){
 			handleUsername(sessionStorage.username);
+			var gm = grid.returnJson();
+			console.log(gm);
 			data = {
 				room:'newgame',
-				jason: grid.returnJson()
+				gamedata: gm
 			};
 			console.log(data);
             socket.emit('createGame', data);

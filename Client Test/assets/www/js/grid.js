@@ -85,7 +85,7 @@ Grid.prototype.setBackground = function(background){
 	//console.log(background);
 	this.background_src = background;
 	this.background = this.paper.image(background,0,0,500,300);
-	jason.push({background: this.background}); //Set the background
+	//jason.push({background: this.background}); //Set the background
 }
 
 Grid.prototype.createCells = function(){
