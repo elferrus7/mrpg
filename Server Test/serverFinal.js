@@ -149,8 +149,22 @@ io.sockets.on('connection', function(socket){
 
 	// When a client creates a game
 	socket.on('createGame', function(data){
-		socket.emit()
+		//console.log('Create Game '+ data.room);
+		//console.log(data.json);
+		juegos.push({room:data.room,gamedata:data.json});
 	});
+
+	socket.on('getGame', function(data){
+		for(var i in juegos){
+			//console.log(juegos[i]);
+			if(juegos[i].room == data.room){
+				console.log('Game found');
+				console.log(juegos[i].gamedata);
+				socket.emit('startGame',juegos[i].gamedata);
+			}
+		}
+		
+	});	
 
 });
 
@@ -301,7 +315,7 @@ function subscribe(socket, data){
 	// check if this room is exist, if not, update all 
 	// other clients about this new room
 	if(rooms.indexOf('/' + data.room) < 0){
-		juegos.push({room:data.room, gamedata: data.jason}) 
+		//juegos.push({room:data.room, gamedata: data.jason}) 
 		socket.broadcast.emit('addroom', { room: data.room });
 	}
 

@@ -16,7 +16,7 @@
 		serverAddress = '127.0.0.1:8080',
 		serverDisplayName = 'Server',
 		serverDisplayColor = '#1c5380';
-
+		var grid = new Grid(6,10,"img/game-map.jpg");
 	// bind DOM elements like button clicks and keydown
 	function bindDOMEvents(){
 
@@ -80,7 +80,7 @@
 			handleUsername(sessionStorage.username);
 			
 			sessionStorage.room = "newgame";
-			sessionStorage.json = grid.returnJson();
+			sessionStorage.json = JSON.stringify(grid.returnJson());
 			sessionStorage.gm = true;
 
             window.location = "index.html";
@@ -113,16 +113,29 @@
 
 			if(sessionStorage.gm){
 				// Obtiene el grid que cambio
-				jason = sessionStorage.json;
 
-				// CREATE GAME MAMADAS POKEMONESCAS
-				/////////////////CREATEGAME
+				// Broadcastea el cambio a los demas
+				//console.log(jason);
+				socket.emit('createGame', {json: sessionStorage.json, room: sessionStorage.room} );
 
 				// Show los botones de GM
 				//////////SHOW BOTONES CHINGONES
 
 				// Cambiar el nickname para saber que EL es el game master
-				nickname = "GM - "+sessionStorage.username;
+				nickname = "GM - " + sessionStorage.username;
+
+				var jason = JSON.parse(sessionStorage.json)
+				//var grid = new Grid(6,10,jason[jason.length-1].background);
+				grid.setBackground(jason[jason.length-1].background);
+				grid.createCells();
+				for(var i in jason){
+					if(jason[i].src != null){
+						grid.addCharacter(jason[i].src,jason[i].cell);
+					}
+				}
+			} else {
+
+				socket.emit('getGame',{room:sessionStorage.room});
 			}
 
 			sessionStorage.turn = false;
@@ -297,6 +310,16 @@
 
 			removeA(data.passed, nickname);
 			clientPassed = data.passed;
+		});
+
+		socket.on('startGame', function (data){
+			var jason = JSON.parse(data)
+			var grid = new Grid(6,10,jason[jason.length-1].background);
+			for(var i in jason){
+				if(jason[i].src != null){
+					grid.addCharacter(jason[i].src,jason[i].cell);
+				}
+			}
 		});
 
 	}
