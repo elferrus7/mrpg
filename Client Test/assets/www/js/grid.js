@@ -9,7 +9,7 @@ function Grid(r, c, background){
 	this.paper = Raphael("grid", 600, 300); // This part is static right now but we have to configurate later
 	cells = this.paper.set(); // All the cells
 	characters = this.paper.set(); // All the images of the avatars thar represent the player and other NPC's
-	background = this.paper.image(background,0,0,500,300); // config
+	this.background = this.paper.image(background,0,0,500,300); // config
 	rows = r; //Number of colums 
 	colums = c; // Number of rows
 	flag = false; //Flag for the movement of the characters
@@ -34,6 +34,7 @@ Grid.prototype.addCharacter = function(src,cellid)
 	//console.log("Transforming to " + string);
 	//characters[characters.length -1].transform(string);
 	jason.push({id:id,cell:cellid,src:src});
+	//console.log(jason);
 	this.moveImage(id,cellid);
 	//console.log("Character added in " + 5 + (Math.floor(cellid / rows)) * 55 + " , " + 5 + (cellid - (Math.floor(cellid / rows)) * rows ) * 55);
 	/*this.characters.click(function(){
@@ -68,11 +69,12 @@ Grid.prototype.updateGrid = function(sjason){
 }
 
 Grid.prototype.returnJson= function(){
-	console.log("Json enviado " + JSON.stringify(jason));
 	//console.log("Return jason");
+	jason.push({background: this.background}); //Set the background
+	//console.log(jason);
+	
 	//var str = JSON.stringify(jason)
 	//console.log(str);
-	jason.push({background:this.background}); //Set the background
 	return jason;
 }
 
@@ -112,7 +114,7 @@ Grid.prototype.createCells = function(){
 			/*string = " colum " + (Math.floor(this.data("id") / rows)) + "," // Calculando el numero de columnas de la posicion de la celda
 						 + " Row "+ (this.data("id") - (Math.floor(this.data("id") / rows)) * rows ); // Calculando Numero de fila de la posición de la celda*/
 			//console.log("Helow from " + this.data("id") + string);
-			console.log("Flag " + flag + " charid " + charid);
+			//console.log("Flag " + flag + " charid " + charid);
 		}
 	});
 }
