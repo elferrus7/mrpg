@@ -17,6 +17,7 @@
 		serverDisplayName = 'Server',
 		serverDisplayColor = '#1c5380';
 		var grid = new Grid(6,10,"img/game-map.jpg");
+		
 	// bind DOM elements like button clicks and keydown
 	function bindDOMEvents(){
 
@@ -140,6 +141,34 @@
 
 			sessionStorage.turn = false;
 		});
+
+		$('.background').click(function(){
+                        //console.log($(this).find('img').attr('src'));
+            grid.setBackground($(this).find('img').attr('src'));
+            var map = $(this).find('img').attr('src');
+        });
+
+        $('.npc').click(function (){
+            npc = $(this).find('img').attr('src');
+            flagAdd = true;
+        });
+
+        $('#wrap2').hide();
+                    $('#finish').hide();
+                    $('#next').click(function (){
+                        $('#wrap').hide();
+                        $('#wrap2').show();
+                        $('#next').hide();
+                        $('#finish').show();
+                        grid.createCells();
+                        var cells = grid.getCells();
+                        cells.click(function (){
+                            if (flagAdd){
+                                grid.addCharacter(npc,this.data('id'));
+                                flagAdd = false;
+                            }
+                        });
+                    });
 	}
 
 	// bind socket.io event handlers

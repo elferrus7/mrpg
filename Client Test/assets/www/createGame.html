@@ -63,8 +63,8 @@
                         </div>
                         <div id = "grid" class="span13">
                             <script>
-                                console.log("Grid initialiting");
-                                var grid = new Grid(6,10,"img/map.jpg");
+                                //console.log("Grid initialiting");
+                                //var grid = new Grid(6,10,"img/map.jpg");
                             </script>
                             <!-- <ul id = "mycarousel" class="jcarousel-tango">
                                 <li><img src="img/body.png" width="40" height="40" alt="" /></li>
@@ -96,36 +96,12 @@
             <script type="text/javascript">
                 flagAdd = false;
                 $(document).ready(function(){
-                    $('.background').click(function(){
-                        //console.log($(this).find('img').attr('src'));
-                        grid.setBackground($(this).find('img').attr('src'));
-                        var map = $(this).find('img').attr('src');
-                    });
-
-                    $('.npc').click(function (){
-                        npc = $(this).find('img').attr('src');
-                        flagAdd = true;
-                    });
+                    
                 });
             </script>
             <script type="text/javascript">
                 $(document).ready(function (){
-                    $('#wrap2').hide();
-                    $('#finish').hide();
-                    $('#next').click(function (){
-                        $('#wrap').hide();
-                        $('#wrap2').show();
-                        $('#next').hide();
-                        $('#finish').show();
-                        grid.createCells();
-                        var cells = grid.getCells();
-                        cells.click(function (){
-                            if (flagAdd){
-                                grid.addCharacter(npc,this.data('id'));
-                                flagAdd = false;
-                            }
-                        });
-                    });
+                    
                 });
             </script>
             <script type="text/javascript" src="js/jquery.tmpl.min.js"></script>
