@@ -100,6 +100,8 @@ io.sockets.on('connection', function(socket){
 	// this event, then the server forwards the message
 	// to other clients in the same room
 	socket.on('updateGrid',function(data){
+
+		console.log("CON STRING: "+data.json);
 		// Save the latest movement in the game
 		gamePosition[data.room] = data.json;
 		console.log(data.json);

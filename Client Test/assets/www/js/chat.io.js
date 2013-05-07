@@ -46,6 +46,7 @@
 				// La bandera de turno se deshabilita hasta que sea su turno nuevamente
 				sessionStorage.turn = false;
 
+				console.log("SIN STRING: "+jason);
 				// Broadcastea el cambio a los demas
 				//console.log({json: JSON.stringify(jason), room: currentRoom});
 				socket.emit('updateGrid', {json: JSON.stringify(jason), room: currentRoom} );
@@ -81,8 +82,6 @@
 			sessionStorage.room = "newgame";
 			sessionStorage.json = grid.returnJson();
 			sessionStorage.gm = true;
-			console.log("PRIMERO: "+sessionStorage.json);
-			alert("algo");
 
             window.location = "index.html";
         });
@@ -116,9 +115,8 @@
 				// Obtiene el grid que cambio
 				jason = sessionStorage.json;
 
-				// Broadcastea el cambio a los demas
-				//console.log({json: JSON.stringify(jason), room: currentRoom});
-				socket.emit('updateGrid', {json: JSON.stringify(jason), room: sessionStorage.room} );
+				// CREATE GAME MAMADAS POKEMONESCAS
+				/////////////////CREATEGAME
 
 				// Show los botones de GM
 				//////////SHOW BOTONES CHINGONES
