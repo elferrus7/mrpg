@@ -101,6 +101,7 @@
 			var password = $('#password').val();
 			handleUsername(username, "lobby");
 
+			console.log("TU MAMAAAAAAAAA");
 			
 			socket.emit('sign', {usr: $('#username').val(), pwd: $('#password').val()});
 		});
