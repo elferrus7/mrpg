@@ -14,7 +14,9 @@ var database = require('./db.js');
 
 var db = database.createDB();
 db.User();
-/*db.findUser('poke',function (err,user){
+db.saveUser({username:'paco',password:'winiwineo'});
+/*db.findUser('paco',function (err,user){
+	console.log('finding');
 	console.log(user);
 });*/
 var users = new Array(); //Arreglo con todos los usuarios loggeados

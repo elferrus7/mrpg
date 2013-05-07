@@ -10,6 +10,7 @@ function Grid(r, c, background){
 	cells = this.paper.set(); // All the cells
 	characters = this.paper.set(); // All the images of the avatars thar represent the player and other NPC's
 	this.background = this.paper.image(background,0,0,500,300); // config
+	this.background_src = background;
 	rows = r; //Number of colums 
 	colums = c; // Number of rows
 	flag = false; //Flag for the movement of the characters
@@ -70,7 +71,7 @@ Grid.prototype.updateGrid = function(sjason){
 
 Grid.prototype.returnJson= function(){
 	//console.log("Return jason");
-	jason.push({background: this.background}); //Set the background
+	jason.push({background: this.background_src }); //Set the background
 	//console.log(jason);
 	
 	//var str = JSON.stringify(jason)
@@ -81,6 +82,7 @@ Grid.prototype.returnJson= function(){
 Grid.prototype.setBackground = function(background){
 	this.background.remove();
 	//console.log(background);
+	this.background_src = background;
 	this.background = this.paper.image(background,0,0,500,300);
 	jason.push({background: this.background}); //Set the background
 }

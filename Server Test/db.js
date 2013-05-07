@@ -33,6 +33,8 @@ DB.prototype.saveUser = function (u){
 
 	usuario.save(function (err,user){
 		if(err) console.log('Error saving user');
+		console.log('User saved');
+		console.log(user);
 	});
 }
 
