@@ -70,11 +70,12 @@ Grid.prototype.updateGrid = function(sjason){
 
 Grid.prototype.returnJson= function(){
 	//console.log("Return jason");
-	jason.push({background: this.background}); //Set the background
+	//jason.push({background: this.background}); //Set the background
 	//console.log(jason);
 	
 	//var str = JSON.stringify(jason)
 	//console.log(str);
+
 	return jason;
 }
 
