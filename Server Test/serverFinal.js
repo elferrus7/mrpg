@@ -14,9 +14,13 @@ var database = require('./db.js');
 
 var db = database.createDB();
 db.User();
+<<<<<<< HEAD
 db.saveUser({username:'paco',password:'winiwineo'});
 /*db.findUser('paco',function (err,user){
 	console.log('finding');
+=======
+/*db.findUser('jorge',function (err,user){
+>>>>>>> 2b5bd00c971c58c3fba9890c18584d8391c6b6f3
 	console.log(user);
 });*/
 var users = new Array(); //Arreglo con todos los usuarios loggeados
@@ -136,7 +140,7 @@ io.sockets.on('connection', function(socket){
 	// when a client signs up and is stored
 	// in the database
 	socket.on('sign', function(data){
-		//console.log("WTF "+data.usr+" "+data.pwd);
+		console.log("WWTTFF");
 		signup(data.usr, data.pwd);
 	});
 
@@ -208,15 +212,18 @@ function disconnect(socket){
 
 function login(username, password,socket){
 	var passwordtocompare = password;
+	
 	var auth = function (err,user){
 		//console.log('Login user');
 		//console.log(user);
 		//console.log('passwordtocompare: ' + passwordtocompare);
 		//console.log(users);
+		console.log(username+" - "+password+" user: "+user)
 		if(user){
+			console.log("entro");
 			if(user.password == passwordtocompare){
 				users.push({username: user.username, socket:''});
-				console.log(users);
+				console.log("Esta correcto");
 				//console.log('access granted');
 				socket.emit('login',{bool:true});
 			} else {
@@ -231,10 +238,10 @@ function login(username, password,socket){
 function signup(usr, pwd){
 	console.log(usr+" "+pwd);
 	if(usr.length <= 15){
-		db.saveUser({username: usr, password: pwd});
+		db.saveUser( {username: usr, password: pwd} );
 		socket.emit('signup',{bool: true});
 	}else{
-		socket.emit('signup',{bool: true});
+		socket.emit('signup',{bool: false});
 	}
 }
 

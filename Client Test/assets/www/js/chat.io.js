@@ -13,7 +13,7 @@
 		currentRoom = null,
 
 		// server information
-		serverAddress = '10.25.74.147:8080',
+		serverAddress = '10.25.78.137:8080',
 		serverDisplayName = 'Server',
 		serverDisplayColor = '#1c5380';
 
@@ -30,6 +30,7 @@
 
 		$('.true').on('click', function(){
 			sessionStorage.turn = true;
+			alert(sessionStorage.turn);
 		});
 
 
@@ -45,8 +46,12 @@
 				// La bandera de turno se deshabilita hasta que sea su turno nuevamente
 				sessionStorage.turn = false;
 
+
+				console.log(jason);
+
 				// Broadcastea el cambio a los demas
-				socket.emit('updateGrid',{json: JSON.stringify(jason), room: currentRoom} );
+				//console.log({json: JSON.stringify(jason), room: currentRoom});
+				socket.emit('updateGrid', {json: JSON.stringify(jason), room: currentRoom} );
 
 				// 	Ver quien sigue en turno
 				//	clientPassed: Matriz que contiene que falta por pasar
@@ -87,18 +92,17 @@
 			var username = $('#inputUsername').val();
 			sessionStorage.username = username;
 			handleUsername(username, "lobby");
+			console.log("Loginname "+username)
 			socket.emit('login', {username: username, password:$('#inputPassword').val()});
-		});
-
-
-		$('.log').on('click', function(){
-			handleUsername("someone", "lobby");
 		});
 
 		$('#signup').on('click', function(){
 			var username = $('#username').val();
 			var password = $('#password').val();
-			socket.emit('sign', {usr: username, pwd: password});
+			handleUsername(username, "lobby");
+
+			
+			socket.emit('sign', {usr: $('#username').val(), pwd: $('#password').val()});
 		});
 		
 

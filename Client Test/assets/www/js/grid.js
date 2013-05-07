@@ -76,6 +76,7 @@ Grid.prototype.returnJson= function(){
 	
 	//var str = JSON.stringify(jason)
 	//console.log(str);
+
 	return jason;
 }
 
