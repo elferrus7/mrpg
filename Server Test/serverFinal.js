@@ -8,7 +8,7 @@
 //Requaring observer
 var observer = require('./observer.js');
 //var main = require('./main.js');
-var obs = observer.createObserver();
+var obs = observer.getInstance();
 
 var database = require('./db.js');
 
@@ -29,6 +29,11 @@ var juegos = new Array(); //Juegos por el momento
 // Chatlog of every room
 chatLog = new Object();
 
+// Position of each characted on everygame
+// stores the JSON of the latest move ever done
+// in a game
+gamePosition = new Object();
+ 
 // creating global parameters and start
 // listening to 'port', we are creating an express
 // server and then we are binding it with socket.io
@@ -52,7 +57,7 @@ console.log('Chat server is running and listening to port %d...', port);
 io.set('log level', 2);
 
 // setting the transports by order, if some client
-// is not supporting 'websockets' then the server will
+// is not supportin  'websockets' then the server will
 // revert to 'xhr-polling' (like Comet/Long polling).
 // for more configurations got to:
 // https://github.com/LearnBoost/Socket.IO/wiki/Configuring-Socket.IO
@@ -93,8 +98,13 @@ io.sockets.on('connection', function(socket){
 	// this event, then the server forwards the message
 	// to other clients in the same room
 	socket.on('updateGrid',function(data){
-		//SE updeteo una GRID
+		// Save the latest movement in the game
+		gamePosition[data.room] = data.json;
+		
+		// Grid was updated and will be broadcasted 
+		// to each client
 		updateGrid(socket,data.json,data.room);
+
 	});
 	
 	// client subscribtion to a room
@@ -115,9 +125,27 @@ io.sockets.on('connection', function(socket){
 		disconnect(socket);
 	});
 
+	// when a client logins to the application
+	// verify with the database
 	socket.on('login', function(data){
 		login(data.username,data.password,socket);
 	});
+
+	// when a client signs up and is stored
+	// in the database
+	socket.on('sign', function(data){
+		//console.log("WTF "+data.usr+" "+data.pwd);
+		signup(data.usr, data.pwd);
+	});
+
+	// when a client has passed turn waiting
+	// for the next client to make a turn
+	socket.on('passTurn', function(data){
+		socket.broadcast.to(data.room).emit('nextTurn', {clients: getClientsInRoom(socket.id, data.room), passed: passTurn(getClientsInRoom(socket.id, data.room), data.username, data.faltan) }); 
+	});
+
+
+
 });
 
 // create a client for the socket
@@ -135,9 +163,11 @@ function connect(socket, data){
 	// now the client objtec is ready, update
 	// the client
 	socket.emit('ready', { clientId: data.clientId });
+
+	console.log("CONNECTING TO: "+data.room);
 	
 	// auto subscribe the client to the 'lobby'
-	subscribe(socket, { room: 'lobby' });
+	subscribe(socket, { room: data.room });
 
 	// sends a list of all active rooms in the
 	// server
@@ -182,19 +212,31 @@ function login(username, password,socket){
 		//console.log('passwordtocompare: ' + passwordtocompare);
 		//console.log(users);
 		if(user){
-				if(user.password == passwordtocompare){
-					users.push({username: user.username, socket:''});
-					console.log(users);
-					//console.log('access granted');
-					socket.emit('login',{bool:true});
-				} else {
-					//console.log('GG ya perdimos');
-					socket.emit('login',{bool:false});
-				}
+			if(user.password == passwordtocompare){
+				users.push({username: user.username, socket:''});
+				console.log(users);
+				//console.log('access granted');
+				socket.emit('login',{bool:true});
+			} else {
+				//console.log('GG ya perdimos');
+				socket.emit('login',{bool:false});
 			}
+		}
 	}
 	db.findUser(username,auth);
 }
+
+function signup(usr, pwd){
+	console.log(usr+" "+pwd);
+	if(usr.length <= 15){
+		db.saveUser({username: usr, password: pwd});
+		socket.emit('signup',{bool: true});
+	}else{
+		socket.emit('signup',{bool: true});
+	}
+}
+
+
 
 /*
 ////////////////////////////////////////////////////
@@ -226,6 +268,28 @@ function chatmessage(socket, data){
 *													|
 *////////////////////////////////////////////////////
 
+// A quien le falta por pasar su turno
+// clients: Clientes totales en el room
+// paso: el cliente que acaba de pasar o va pasar
+// faltan: Lista de cada cliente de quien realmente falta
+function passTurn(clients, paso, faltan){
+	var out = [];
+	if(faltan == null ||  faltan == ""){
+		for(var i = clients.length-1; i >= 0; i--){		
+			if( clients[i].nickname != paso ){
+				out.push(clients[i].nickname);
+			}
+		}	
+
+		console.log("OUT = "+out);
+		return out;
+	}else{
+		console.log("FALTAN = "+faltan);
+		faltan.reverse();
+		return faltan;
+	}
+}
+
 // subscribe a client to a room
 function subscribe(socket, data){
 	// get a list of all active rooms
@@ -241,22 +305,29 @@ function subscribe(socket, data){
 	// subscribe the client to the room
 	socket.join(data.room);
 
+	// Auxiliar para el data.room
+	aux = data.room;
+
+	// Update the Grid to the client
+	// to the last turn movement stored
+	if(aux != "lobby") {
+		socket.emit('updateGrid', gamePosition[aux]);
+	}
 	// update all other clients about the online
 	// presence
 	updatePresence(data.room, socket, 'online');
 
-	// Auxiliar para el data.room
-	aux = data.room;
+	
 
 	if(chatLog[aux] == null || chatLog[aux] == "" || chatLog[aux] == ''){
-		chatLog[aux] += " level of experience"
-		socket.emit('roomclients', { room: data.room, clients: getClientsInRoom(socket.id, data.room), chatlogs: "level of experience" }); 
+		var out = 'Welcome to the room: `' + data.room + '`... enjoy!';
+		socket.emit('roomclients', { room: data.room, clients: getClientsInRoom(socket.id, data.room), chatlogs: out }); 
+
 	}else{
 	// send to the client a list of all subscribed clients
 	// in this room
 	socket.emit('roomclients', { room: data.room, clients: getClientsInRoom(socket.id, data.room), chatlogs: chatLog[aux] }); 
-	}
-
+	}  
 }
 
 // unsubscribe a client from a room, this can be
@@ -334,7 +405,6 @@ function generateId(){
 
 function updateGrid(socket,data,room){
 	obs.warning(socket,data,room);	
-	io.sockets.in(data.room).emit('popo');
 }
 
 // updating all other clients when a client goes
@@ -342,7 +412,7 @@ function updateGrid(socket,data,room){
 function updatePresence(room, socket, state){
 	// socket.io may add a trailing '/' to the
 	// room name so we are clearing it
-	room = room.replace('/','');
+	//room = room.replace('/','');
 
 	// by using 'socket.broadcast' we can send/emit
 	// a message/event to all other clients except

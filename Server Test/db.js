@@ -6,8 +6,7 @@ function DB(){
 	var db = this.mongoose.connection;
 	db.on('error', console.error.bind(console, 'connection error:'));
 	db.once('open', function callback () {
-		console.log("Database connected");
-	  
+		console.log("Database connected");	  
 	});
 }
 
@@ -34,9 +33,6 @@ DB.prototype.saveUser = function (u){
 
 	usuario.save(function (err,user){
 		if(err) console.log('Error saving user');
-
-		//console.log('user saved');
-		//console.log(user);
 	});
 }
 

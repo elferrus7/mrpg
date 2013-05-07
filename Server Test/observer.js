@@ -44,7 +44,7 @@ function Observer(){
 	this.grids = new Array();
 }
 
-exports.createObserver = function(){
+exports.getInstance = function(){
 	return new Observer();
 }
 
