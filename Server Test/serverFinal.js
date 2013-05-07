@@ -102,7 +102,7 @@ io.sockets.on('connection', function(socket){
 	socket.on('updateGrid',function(data){
 		// Save the latest movement in the game
 		gamePosition[data.room] = data.json;
-		
+		console.log(data.json);
 		// Grid was updated and will be broadcasted 
 		// to each client
 		updateGrid(socket,data.json,data.room);
@@ -136,7 +136,6 @@ io.sockets.on('connection', function(socket){
 	// when a client signs up and is stored
 	// in the database
 	socket.on('sign', function(data){
-		console.log("WWTTFF");
 		signup(data.usr, data.pwd,socket);
 	});
 
@@ -146,7 +145,10 @@ io.sockets.on('connection', function(socket){
 		socket.broadcast.to(data.room).emit('nextTurn', {clients: getClientsInRoom(socket.id, data.room), passed: passTurn(getClientsInRoom(socket.id, data.room), data.username, data.faltan) }); 
 	});
 
-	socket.on('createGame',);
+	// When a client creates a game
+	socket.on('createGame', function(data){
+		socket.emit()
+	});
 
 });
 
@@ -166,8 +168,6 @@ function connect(socket, data){
 	// the client
 	socket.emit('ready', { clientId: data.clientId });
 
-	console.log("CONNECTING TO: "+data.room);
-	
 	// auto subscribe the client to the 'lobby'
 	subscribe(socket, { room: data.room });
 
@@ -214,12 +214,9 @@ function login(username, password,socket){
 		//console.log(user);
 		//console.log('passwordtocompare: ' + passwordtocompare);
 		//console.log(users);
-		console.log(username+" - "+password+" user: "+user)
 		if(user){
-			console.log("entro");
 			if(user.password == passwordtocompare){
 				users.push({username: user.username, socket:''});
-				console.log("Esta correcto");
 				//console.log('access granted');
 				socket.emit('login',{bool:true});
 			} else {
@@ -232,7 +229,6 @@ function login(username, password,socket){
 }
 
 function signup(usr, pwd,socket){
-	console.log(usr+" "+pwd);
 	if(usr.length <= 15){
 		db.saveUser( {username: usr, password: pwd} );
 		socket.emit('signup',{bool: true});

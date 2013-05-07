@@ -46,9 +46,6 @@
 				// La bandera de turno se deshabilita hasta que sea su turno nuevamente
 				sessionStorage.turn = false;
 
-
-				console.log(jason);
-
 				// Broadcastea el cambio a los demas
 				//console.log({json: JSON.stringify(jason), room: currentRoom});
 				socket.emit('updateGrid', {json: JSON.stringify(jason), room: currentRoom} );
@@ -80,14 +77,14 @@
 
 		$('#finish').on('click', function(){
 			handleUsername(sessionStorage.username);
-			var gm = grid.returnJson();
-			console.log(gm);
-			data = {
-				room:'newgame',
-				gamedata: gm
-			};
-			console.log(data);
-            socket.emit('createGame', data);
+			
+			sessionStorage.room = "newgame";
+			sessionStorage.json = grid.returnJson();
+			sessionStorage.gm = true;
+			console.log("PRIMERO: "+sessionStorage.json);
+			alert("algo");
+
+            window.location = "index.html";
         });
 
 		$('#login').on('click', function(){
@@ -95,7 +92,6 @@
 			sessionStorage.username = username;
 			handleUsername(username, "lobby");
 
-			console.log("Loginname "+username)
 			socket.emit('login', {username: username, password:$('#inputPassword').val()});
 		});
 
@@ -104,7 +100,6 @@
 			var password = $('#password').val();
 			handleUsername(username, "lobby");
 
-			console.log('username' + username + ' passowrd ' + password);
 			socket.emit('sign', {usr: $('#username').val(), pwd: $('#password').val()});
 		});
 		
@@ -116,6 +111,22 @@
 
 		$('#game').on('click',function (){
 			handleUsername(sessionStorage.username, sessionStorage.room);
+
+			if(sessionStorage.gm){
+				// Obtiene el grid que cambio
+				jason = sessionStorage.json;
+
+				// Broadcastea el cambio a los demas
+				//console.log({json: JSON.stringify(jason), room: currentRoom});
+				socket.emit('updateGrid', {json: JSON.stringify(jason), room: sessionStorage.room} );
+
+				// Show los botones de GM
+				//////////SHOW BOTONES CHINGONES
+
+				// Cambiar el nickname para saber que EL es el game master
+				nickname = "GM - "+sessionStorage.username;
+			}
+
 			sessionStorage.turn = false;
 		});
 	}
@@ -262,7 +273,6 @@
 		});
 
 		socket.on('login',function(data){
-			console.log(data.bool);
 			if(data.bool){
 				window.location = 'joinGame.html';
 			} else{
@@ -272,7 +282,7 @@
 
 		socket.on('signup',function(data){
 			if(data.bool){
-				//window.location = 'login.html';
+				window.location = 'login.html';
 			} else{
 				alert('Try another Username/Password');
 			}
