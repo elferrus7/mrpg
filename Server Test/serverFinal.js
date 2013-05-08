@@ -156,8 +156,8 @@ io.sockets.on('connection', function(socket){
 		for(var i in juegos){
 			//console.log(juegos[i]);
 			if(juegos[i].room == data.room){
-				console.log('Game found');
-				console.log(juegos[i].gamedata);
+				//console.log('Game found');
+				//console.log(juegos[i].gamedata);
 				socket.emit('startGame',juegos[i].gamedata);
 			}
 		}
