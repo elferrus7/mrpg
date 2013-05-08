@@ -84,8 +84,7 @@ io.sockets.on('connection', function(socket){
 	});
 
 	// Request server games
-	socket.on('requestList', function(data){
-		console.log(juegos);
+	socket.on('requestList', function(data){		
 		socket.emit('displaylist', { rooms: juegos });
 	});
 
@@ -295,11 +294,8 @@ function passTurn(clients, paso, faltan){
 				out.push(clients[i].nickname);
 			}
 		}	
-
-		console.log("OUT = "+out);
 		return out;
 	}else{
-		console.log("FALTAN = "+faltan);
 		faltan.reverse();
 		return faltan;
 	}
@@ -360,7 +356,18 @@ function unsubscribe(socket, data){
 	// we are updating all clients about that the
 	// room is destroyed
 	if(!countClientsInRoom(data.room)){
+		console.log("ROOM A QUITAR: "+ data.room);
+		for(var i in juegos){
+			if(juegos[i].room == data.room){
+				juegos.splice(i, 1);
+				console.log("AHORA ES ");
+				console.log(juegos);
+			}
+		}
 
+		
+
+		
 		// with 'io.sockets' we can contact all the
 		// clients that connected to the server
 		io.sockets.emit('removeroom', { room: data.room });

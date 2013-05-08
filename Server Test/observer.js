@@ -27,7 +27,6 @@ function GridClient(id,socket){
 }
 
 GridClient.prototype.sendJson = function(socket, jason, room){
-	//this.socket.volatile.emit( 'updateGrid',jason);
 	socket.broadcast.to(room).emit('updateGrid', jason);
 }
 

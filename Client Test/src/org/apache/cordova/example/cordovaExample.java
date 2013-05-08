@@ -24,6 +24,8 @@ import org.apache.cordova.*;
 
 public class cordovaExample extends DroidGap
 {
+	private float m_downX;
+	
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -31,6 +33,28 @@ public class cordovaExample extends DroidGap
         // Set by <content src="index.html" /> in config.xml
         //super.loadUrl(Config.getStartUrl());
         super.loadUrl("file:///android_asset/www/login.html");
+        
+        this.appView.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        // save the x
+                        m_downX = event.getX();
+                    }
+                    break;
+
+                    case MotionEvent.ACTION_MOVE:
+                    case MotionEvent.ACTION_CANCEL:
+                    case MotionEvent.ACTION_UP: {
+                        // set x so that it doesn't move
+                        event.setLocation(m_downX, event.getY());
+                    }
+                    break;
+                }
+                return false;
+            }
+        });
     }
 }
 

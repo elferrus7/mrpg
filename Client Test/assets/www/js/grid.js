@@ -62,8 +62,8 @@ Grid.prototype.updateGrid = function(sjason){
 	ljason = JSON.parse(sjason);
 	for(var i in ljason){
 		if(ljason[i].id != null){
-			console.log("JSON a mover");
-			console.log(ljason[i]);
+			//console.log("JSON a mover");
+			//console.log(ljason[i]);
 			this.moveImage(ljason[i].id, ljason[i].cell);	
 		}
 	}
