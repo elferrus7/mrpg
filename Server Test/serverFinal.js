@@ -149,6 +149,8 @@ io.sockets.on('connection', function(socket){
 	socket.on('createGame', function(data){
 		//console.log('Create Game '+ data.room);
 		//console.log(data.json);
+		getRoom
+		if(data.room )
 		juegos.push({ room:data.room, gamedata:data.json, descripcion: data.descripcion });
 	});
 
@@ -360,6 +362,10 @@ function unsubscribe(socket, data){
 	// we are updating all clients about that the
 	// room is destroyed
 	if(!countClientsInRoom(data.room)){
+
+		while (juegos.indexOf(data.room) !== -1) {
+			juegos.splice(juegos.indexOf(data.room), 1);
+		}
 
 		// with 'io.sockets' we can contact all the
 		// clients that connected to the server
