@@ -146,8 +146,6 @@ io.sockets.on('connection', function(socket){
 	// When a client creates a game
 	socket.on('createGame', function(data){
 		var rooms = "";
-		var desc;
-
 		if(data.room == "" || data.room == null){
 			rooms = data.names;	
 			juegos.push({ room: rooms, gamedata:data.json, descripcion: data.descripcion });
@@ -282,7 +280,7 @@ function chatmessage(socket, data){
 	// by using 'socket.broadcast' we can send/emit
 	// a message/event to all other clients except
 	// the sender himself
-	socket.broadcast.to(data.room).emit('chatmessage', { client: chatClients[socket.id], message: data.message, room: data.room });
+	socket.broadcast.to(data.room).emit('chatmessage', { client: chatClients[socket.id], message: data.message, room: data.room, names: data.names });
 }
 
 /*

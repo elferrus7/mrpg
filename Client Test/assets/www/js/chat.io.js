@@ -37,7 +37,6 @@
 				// La bandera de turno se deshabilita hasta que sea su turno nuevamente
 				sessionStorage.turn = false;
 
-				console.log("SIN STRING: "+jason);
 				// Broadcastea el cambio a los demas
 				//console.log({json: JSON.stringify(jason), room: currentRoom});
 				socket.emit('updateGrid', {json: JSON.stringify(jason), room: currentRoom} );
@@ -47,7 +46,8 @@
 				//	clientPassed: Es nula para el primero que tenga turno en el juego.
 				socket.emit('passTurn', {room: currentRoom, username: nickname, faltan: clientPassed});
 			}else{
-				alert("No es tu turno");
+				// display the message in the chat window
+				insertMessage("Server", "NO es tu turno !", true, true);				
 			}
 		});
 
@@ -249,6 +249,17 @@
 
 		// after the initialize, the server sends a list of
 		// all the active rooms
+		socket.on('disconnectTurn', function(data){
+			if(sessionStorage.turn == true){
+				// 	Ver quien sigue en turno
+				//	clientPassed: Matriz que contiene que falta por pasar
+				//	clientPassed: Es nula para el primero que tenga turno en el juego.
+				socket.emit('passTurn', {room: data.room, username: data.client.nickname, faltan: clientPassed});
+			}
+		});
+
+		// after the initialize, the server sends a list of
+		// all the active rooms
 		socket.on('displaylist', function(data){
 			// Clear the rooms
 			$('.roomlog').val("");
@@ -285,7 +296,7 @@
 		// when someone sends a message, the sever push it to
 		// our client through this event with a relevant data
 		socket.on('chatmessage', function(data){
-			var nickname = data.client.nickname;
+			var nickname = data.names;
 			var message = data.message;
 			
 			//display the message in the chat window
@@ -339,6 +350,7 @@
 			if(data.state == 'online'){
 				addClient(data.client, true);
 			} else if(data.state == 'offline'){
+
 				removeClient(data.client, true);
 			}
 		});
@@ -365,7 +377,14 @@
 		socket.on('nextTurn', function(data){
 			if(data.passed[0] == nickname){
 				sessionStorage.turn = true;
-				alert("Es tu turno!");
+
+			var mess = "Es turno de "+nickname;
+			// send the message to the server with the room name
+			socket.emit('chatmessage', { message: mess, room: currentRoom, names: "Server", hour: getTime() });
+			
+			// display the message in the chat window
+			insertMessage("Server", "Es tu TURNO !", true, true);
+
 			}
 
 			removeA(data.passed, nickname);
@@ -435,7 +454,7 @@
 		if(announce){
 			insertMessage(serverDisplayName, client.nickname + ' has joined the room...', true, false, true);
 			var aux = "\nServer: " + client.nickname + ' has joined the room...';
-			socket.emit('chatlog', { message: aux, room: currentRoom });
+			//socket.emit('chatlog', { message: aux, room: currentRoom });
 		}
 		
 	}
@@ -448,7 +467,7 @@
 		if(announce){
 			insertMessage(serverDisplayName, client.nickname + ' has left the room...', true, false, true);
 			var aux = "\nServer: " + client.nickname + ' has left the room...'
-			socket.emit('chatlog', { message: aux, room: currentRoom });
+			//socket.emit('chatlog', { message: aux, room: currentRoom });
 		}
 	}
 
@@ -466,7 +485,7 @@
 			//$('.chat-shadow').animate({ 'opacity': 1 }, 200);.
 
 			// unsubscribe from the current room
-			socket.emit('unsubscribe', { room: currentRoom });
+			socket.emit('unsubscribe', { room: currentRoom, user: nickname });
 
 			// create and subscribe to the new room
 			socket.emit('subscribe', { room: room });
