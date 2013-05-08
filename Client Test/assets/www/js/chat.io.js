@@ -24,16 +24,6 @@
 		$('.rooms').on('click', function(){
 				socket.emit('requestList');
 		});	
-		
-		$('.cookie').on('click', function(){
-			{ WriteCookie(); }
-		});
-
-		/*$('.true').on('click', function(){
-			sessionStorage.turn = true;
-			alert(sessionStorage.turn);
-		});*/
-
 
 		$('#passTurn').on('click',function(){
 			if(sessionStorage.turn == true || sessionStorage.turn == "true"){
@@ -178,19 +168,30 @@
         $('#d6').on('click', function (){
         	var r = Math.floor((Math.random()*6)+1);
 			console.log(r);
-			var roll = "D6 : " + r;
-			//insertMessage(nickname,roll, true,false,false);
-			handleMessage();
+			var roll = "D6 : " + r;			
+			// send the message to the server with the room name
+			socket.emit('chatmessage', { message: roll, room: currentRoom, names: nickname, hour: getTime() });
+			
+			// display the message in the chat window
+			insertMessage(nickname, roll, true, true);
         });
         $('#d12').on('click', function (){
         	var r = Math.floor((Math.random()*12)+1);
-			console.log(r);
-			insertMessage(nickname,"D12 : " + r, true,false,false);
+        	var roll = "D12 : " + r;		
+			// send the message to the server with the room name
+			socket.emit('chatmessage', { message: roll, room: currentRoom, names: nickname, hour: getTime() });
+			
+			// display the message in the chat window
+			insertMessage(nickname, roll, true, true);
         });
         $('#d20').on('click', function (){
         	var r = Math.floor((Math.random()*20)+1);
-			console.log(r);
-			insertMessage(nickname,"D20 : " + r, true,false,false);
+        	var roll = "D20 : " + r;		
+        	// send the message to the server with the room name
+			socket.emit('chatmessage', { message: roll, room: currentRoom, names: nickname, hour: getTime() });
+			
+			// display the message in the chat window
+			insertMessage(nickname, roll, true, true);
         });
 	}
 
