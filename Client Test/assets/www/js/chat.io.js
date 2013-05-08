@@ -79,9 +79,10 @@
 		$('#finish').on('click', function(){
 			handleUsername(sessionStorage.username);
 			
-			sessionStorage.room = "newgame";
+			sessionStorage.room = $('#gamename').val();
 			sessionStorage.json = JSON.stringify(grid.returnJson());
 			sessionStorage.gm = true;
+			sessionStorage.descripcion = $('#descripcion').val();
 
             window.location = "index.html";
         });
@@ -116,7 +117,7 @@
 
 				// Broadcastea el cambio a los demas
 				//console.log(jason);
-				socket.emit('createGame', {json: sessionStorage.json, room: sessionStorage.room} );
+				socket.emit('createGame', {json: sessionStorage.json, room: sessionStorage.room, descripcion: sessionStorage.descripcion} );
 
 				// Show los botones de GM
 				//////////SHOW BOTONES CHINGONES
@@ -196,11 +197,11 @@
 
 			// loop through the rooms and display them
 			for(var i = 0, len = data.rooms.length; i < len; i++){
-				if(data.rooms[i] != ''){
-					var aux = data.rooms[i].replace('/','');
+				if(data.rooms[i].room != ''){
+					var aux = data.rooms[i].room.replace('/','');
 					if(aux != "lobby"){
-						table += "<tr id='"+ aux +"' class='game'> <th>"+ aux +"</th> </tr>";
-						$('.roomlog').val($('.roomlog').val() + aux + "\n");
+						table += "<tr id='"+ aux +"' class='game'> <th>"+ aux +"</th> <th>"+ data.rooms[i].descripcion +" </th> </tr>";
+//						$('.roomlog').val($('.roomlog').val() + aux + "\n");
 					}
 				}
 			}
