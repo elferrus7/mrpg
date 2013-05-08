@@ -80,7 +80,7 @@
 		$('#finish').on('click', function(){
 			handleUsername(sessionStorage.username);
 			
-			sessionStorage.room = $('#gamename').val();
+			sessionStorage.room = $('#gameName').val();
 			sessionStorage.json = JSON.stringify(grid.returnJson());
 			sessionStorage.gm = true;
 			sessionStorage.descripcion = $('#descripcion').val();
@@ -220,11 +220,12 @@
 			// Clear the rooms
 			$('.roomlog').val("");
 
-			var table = "<font color='white'> <table cellpadding='0' cellspacing='0' border='1' class='display' id='example'>";
+			var table = "<br/><br/><font color='white'> <table cellpadding='3' cellspacing='3' border='2' class='display' bordercolor='white' id='example'>";
 
 			//$('#dynamic').html( '<table cellpadding="0" cellspacing="0" border="0" class="display" id="example">');
 
 			// loop through the rooms and display them
+
 			for(var i = 0, len = data.rooms.length; i < len; i++){
 				if(data.rooms[i].room != ''){
 					var aux = data.rooms[i].room.replace('/','');
@@ -344,7 +345,7 @@
 
 		socket.on('startGame', function (data){
 			var jason = JSON.parse(data)
-			var grid = new Grid(6,10,jason[jason.length-1].background);
+			grid = new Grid(6,10,jason[jason.length-1].background);
 			for(var i in jason){
 				if(jason[i].src != null){
 					grid.addCharacter(jason[i].src,jason[i].cell);
