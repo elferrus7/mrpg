@@ -174,6 +174,24 @@
                             }
                         });
                     });
+
+        $('#d6').on('click', function (){
+        	var r = Math.floor((Math.random()*6)+1);
+			console.log(r);
+			var roll = "D6 : " + r;
+			//insertMessage(nickname,roll, true,false,false);
+			handleMessage();
+        });
+        $('#d12').on('click', function (){
+        	var r = Math.floor((Math.random()*12)+1);
+			console.log(r);
+			insertMessage(nickname,"D12 : " + r, true,false,false);
+        });
+        $('#d20').on('click', function (){
+        	var r = Math.floor((Math.random()*20)+1);
+			console.log(r);
+			insertMessage(nickname,"D20 : " + r, true,false,false);
+        });
 	}
 
 	// bind socket.io event handlers
