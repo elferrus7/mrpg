@@ -29,13 +29,13 @@
 			{ WriteCookie(); }
 		});
 
-		$('.true').on('click', function(){
+		/*$('.true').on('click', function(){
 			sessionStorage.turn = true;
 			alert(sessionStorage.turn);
-		});
+		});*/
 
 
-		$('.passTurn').on('click',function(){
+		$('#passTurn').on('click',function(){
 			if(sessionStorage.turn == true || sessionStorage.turn == "true"){
 				// Obtiene el grid que cambio
 				jason = grid.returnJson();
@@ -125,7 +125,7 @@
 
 				// Cambiar el nickname para saber que EL es el game master
 				nickname = "GM - " + sessionStorage.username;
-
+				sessionStorage.turn = true;
 				var jason = JSON.parse(sessionStorage.json)
 				//var grid = new Grid(6,10,jason[jason.length-1].background);
 				grid.setBackground(jason[jason.length-1].background);
@@ -138,9 +138,9 @@
 			} else {
 
 				socket.emit('getGame',{room:sessionStorage.room});
+				sessionStorage.turn = false;
 			}
-
-			sessionStorage.turn = false;
+			
 		});
 
 		$('.background').click(function(){
