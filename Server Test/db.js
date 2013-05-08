@@ -40,15 +40,11 @@ DB.prototype.saveUser = function (u){
 
 	usuario.save(function (err,user){
 		if(err) console.log('Error saving user');
-		console.log('User saved');
-		console.log(user);
 	});
 }
 
 DB.prototype.findUser = function (username, cb){
 	//var doc = "";
-	console.log('Funcion a ejecutar');
-	console.log(cb);
 	var query = this.UserModel.findOne({ 'username': username });
 	query.exec(cb);
 

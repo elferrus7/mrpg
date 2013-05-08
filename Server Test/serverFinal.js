@@ -92,7 +92,6 @@ io.sockets.on('connection', function(socket){
 	// this event, then the server forwards the
 	// message to other clients in the same room
 	socket.on('chatmessage', function(data){
-
 		chatmessage(socket, data);
 	});
 
@@ -149,6 +148,11 @@ io.sockets.on('connection', function(socket){
 		//console.log('Create Game '+ data.room);
 		//console.log(data.json);
 		juegos.push({ room:data.room, gamedata:data.json, descripcion: data.descripcion });
+	});
+
+	// When a client creates a game
+	socket.on('chatlog', function(data){
+		chatLog[data.room] += data.message;
 	});
 
 	socket.on('getGame', function(data){
@@ -356,12 +360,9 @@ function unsubscribe(socket, data){
 	// we are updating all clients about that the
 	// room is destroyed
 	if(!countClientsInRoom(data.room)){
-		console.log("ROOM A QUITAR: "+ data.room);
 		for(var i in juegos){
 			if(juegos[i].room == data.room){
 				juegos.splice(i, 1);
-				console.log("AHORA ES ");
-				console.log(juegos);
 			}
 		}
 

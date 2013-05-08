@@ -276,12 +276,8 @@
 			
 			// announce a welcome message
 			//insertMessage(serverDisplayName, 'Welcome to the room: `' + data.room + '`... enjoy!', true, false, true);
-			
-
-			
-			if(data.chatlogs != null || data.chatlogs != ""){
-				insertMessage(serverDisplayName, data.chatlogs , true, false, true);
-			}
+	
+			insertMessage(serverDisplayName, data.chatlogs , true, false, true);
 
 			// add the clients to the clients list
 			addClient({ nickname: nickname, clientId: clientId }, false, true);
@@ -356,21 +352,6 @@
 
 	}
 
-	// Crea la cookie con el nombre de usuario
-	function WriteCookie(){
-       var username = $('.usr').val();
-       document.cookie = username;
-    }
-
-	// Obtiene la cookie con el nombre de usario correspondiente
-    function ReadCookie(){
-       var allcookies = document.cookie;
-       
-       // Get all the cookies pairs in an array
-       cookiearray  = allcookies.split(';');
-       return cookiearray[0];           
-    }
-
     // Remove item from array
     function removeA(arr) {
 	    var what, a = arguments, L = a.length, ax;
@@ -403,9 +384,9 @@
 	function removeRoom(name, announce){
 		//$('.chat-rooms ul li[data-roomId="' + name + '"]').remove();
 		// if announce is true, show a message about this room
-		if(announce){
+		//if(announce){
 			//insertMessage(serverDisplayName, 'The room `' + name + '` destroyed...', true, false, true);
-		}
+		//}
 	}
 
 	// add a client to the clients list
@@ -419,9 +400,9 @@
 */
 		// if announce is true, show a message about this client
 		if(announce){
-			//insertMessage(serverDisplayName, client.nickname + ' has joined the room...', true, false, true);
+			insertMessage(serverDisplayName, client.nickname + ' has joined the room...', true, false, true);
 			var aux = "\nServer: " + client.nickname + ' has joined the room...';
-			//socket.emit('chatlog', { message: aux, room: currentRoom });
+			socket.emit('chatlog', { message: aux, room: currentRoom });
 		}
 		
 	}
@@ -432,9 +413,9 @@
 		
 		// if announce is true, show a message about this room
 		if(announce){
-			//insertMessage(serverDisplayName, client.nickname + ' has left the room...', true, false, true);
+			insertMessage(serverDisplayName, client.nickname + ' has left the room...', true, false, true);
 			var aux = "\nServer: " + client.nickname + ' has left the room...'
-			//socket.emit('chatlog', { message: aux, room: currentRoom });
+			socket.emit('chatlog', { message: aux, room: currentRoom });
 		}
 	}
 
@@ -465,17 +446,6 @@
 		currentRoom = room;
 		$('.chat-rooms ul li.selected').removeClass('selected');
 		$('.chat-rooms ul li[data-roomId="' + room + '"]').addClass('selected');
-	}
-
-	// save the client nickname and start the chat by
-	// calling the 'connect()' function
-	function handleNickname2(){
-		var user = prompt("Dame tu username","nickname");
-		var nick = user;
-		if(nick && nick.length <= NICK_MAX_LENGTH){
-			nickname = nick;
-			connect("lobby");
-		}
 	}
 
 	function handleUsername(nick, gameroom){
@@ -542,29 +512,5 @@
 	$(function(){
 		bindDOMEvents();
 	});
-
-	
-
-		// some templates we going to use in the chat,
-		// like message row, client and room, this
-		// templates will be rendered with jQuery.tmpl
-		tmplt = {
-			room: [
-				'<li data-roomId="${room}">',
-					'<span class="icon"></span> ${room}',
-				'</li>'
-			].join(""),
-			client: [
-				'<li data-clientId="${clientId}" class="cf">',
-					'<div class="fl clientName"><span class="icon"></span> ${nickname}</div>',
-					'<div class="fr composing"></div>',
-				'</li>'
-			].join(""),
-			message: [
-				'<li class="cf">',
-					'<div class="fl sender">${sender}: </div><div class="fl text">${text}</div><div class="fr time">${time}</div>',
-				'</li>'
-			].join("")
-		};
 
 }) (jQuery);
