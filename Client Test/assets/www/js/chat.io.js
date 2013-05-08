@@ -69,7 +69,7 @@
 
 		$('#finish').on('click', function(){
 			handleUsername(sessionStorage.username);
-			
+			//sessionStorage.time = new Date();
 			sessionStorage.room = $('#gameName').val();
 			sessionStorage.json = JSON.stringify(grid.returnJson());
 			sessionStorage.gm = true;
@@ -128,6 +128,16 @@
 						grid.addCharacter(jason[i].src,jason[i].cell);
 					}
 				}
+				/*var tIni = sessionStorage.time;
+				var tFinal = new Date();
+
+				var difT = tIni - tFinal;
+				console.log('Tiempo inicial');
+				console.log(tIni);
+				console.log('Tiempo Final');
+				console.log(tFinal);
+				console.log('Tiempo de carga en milisegundos ');
+				console.log(difT);*/
 			} else {
 
 				handleUsername(sessionStorage.username, sessionStorage.room);
@@ -516,7 +526,7 @@
 	function getTime(){
 		var date = new Date();
 		return (date.getHours() < 10 ? '0' + date.getHours().toString() : date.getHours()) + ':' +
-				(date.getMinutes() < 10 ? '0' + date.getMinutes().toString() : date.getMinutes());
+				(date.getMinutes() < 10 ? '0' + date.getMinutes().toString() : date.getMinutes()) + ':' + date.getSeconds()	+ ':' + date.getMilliseconds();
 	}
 	
 	// after selecting a nickname we call this function
