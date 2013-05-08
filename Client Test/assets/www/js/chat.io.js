@@ -111,14 +111,17 @@
 		});
 
 		$('#game').on('click',function (){
-			handleUsername(sessionStorage.username, sessionStorage.room);
-
 			if(sessionStorage.gm){
-				// Obtiene el grid que cambio
+
+				if(sessionStorage.room == "" || sessionStorage.room == null){
+					handleUsername(sessionStorage.username, sessionStorage.username);
+				}else{
+					handleUsername(sessionStorage.username, sessionStorage.room);
+				}
 
 				// Broadcastea el cambio a los demas
 				//console.log(jason);
-				socket.emit('createGame', {json: sessionStorage.json, room: sessionStorage.room, descripcion: sessionStorage.descripcion, name: nickname} );
+				socket.emit('createGame', {json: sessionStorage.json, room: sessionStorage.room, descripcion: sessionStorage.descripcion, names: sessionStorage.username} );
 
 				// Show los botones de GM
 				//////////SHOW BOTONES CHINGONES
@@ -137,6 +140,7 @@
 				}
 			} else {
 
+				handleUsername(sessionStorage.username, sessionStorage.room);
 				socket.emit('getGame',{room:sessionStorage.room});
 				sessionStorage.turn = false;
 			}
