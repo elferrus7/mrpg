@@ -118,7 +118,7 @@
 
 				// Broadcastea el cambio a los demas
 				//console.log(jason);
-				socket.emit('createGame', {json: sessionStorage.json, room: sessionStorage.room, descripcion: sessionStorage.descripcion} );
+				socket.emit('createGame', {json: sessionStorage.json, room: sessionStorage.room, descripcion: sessionStorage.descripcion, name: nickname} );
 
 				// Show los botones de GM
 				//////////SHOW BOTONES CHINGONES

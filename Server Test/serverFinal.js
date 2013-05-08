@@ -145,9 +145,13 @@ io.sockets.on('connection', function(socket){
 
 	// When a client creates a game
 	socket.on('createGame', function(data){
-		//console.log('Create Game '+ data.room);
-		//console.log(data.json);
-		juegos.push({ room:data.room, gamedata:data.json, descripcion: data.descripcion });
+		var rooms = "";
+		var desc;
+		if(data.room == "" || data.room == null){
+			rooms = data.nickname;	
+			juegos.push({ room: rooms, gamedata:data.json, descripcion: data.descripcion });
+		}
+		juegos.push({ room: data.room, gamedata:data.json, descripcion: data.descripcion });
 	});
 
 	// When a client creates a game
