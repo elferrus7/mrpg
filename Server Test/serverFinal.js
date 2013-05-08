@@ -85,7 +85,8 @@ io.sockets.on('connection', function(socket){
 
 	// Request server games
 	socket.on('requestList', function(data){
-		socket.emit('displaylist', { rooms: getRooms() });
+		console.log(juegos);
+		socket.emit('displaylist', { rooms: juegos });
 	});
 
 	// when a client sends a messgae, he emits
@@ -100,11 +101,8 @@ io.sockets.on('connection', function(socket){
 	// this event, then the server forwards the message
 	// to other clients in the same room
 	socket.on('updateGrid',function(data){
-
-		console.log("CON STRING: "+data.json);
 		// Save the latest movement in the game
 		gamePosition[data.room] = data.json;
-		console.log(data.json);
 		// Grid was updated and will be broadcasted 
 		// to each client
 		updateGrid(socket,data.json,data.room);
@@ -151,7 +149,7 @@ io.sockets.on('connection', function(socket){
 	socket.on('createGame', function(data){
 		//console.log('Create Game '+ data.room);
 		//console.log(data.json);
-		juegos.push({room:data.room,gamedata:data.json});
+		juegos.push({ room:data.room, gamedata:data.json, descripcion: data.descripcion });
 	});
 
 	socket.on('getGame', function(data){
