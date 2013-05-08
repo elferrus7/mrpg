@@ -15,7 +15,7 @@ DB.prototype.User = function () {
 	 this.UserSchema = this.mongoose.Schema({
     	username: { type: String, required: true, index: { unique: true } },
     	password: { type: String, required: true }
-	})
+	});
 	this.UserModel = this.mongoose.model('User', this.UserSchema);
 
 	this.UserSchema.methods.comparePassword = function(candidatePassword, cb) {
@@ -26,6 +26,13 @@ DB.prototype.User = function () {
 		}
 	};
 
+}
+
+DB.prototype.Cs = function (){ //Cs == Character Sheet
+	this.CsSchema = this.mongoose.Schema({
+
+	});
+	this.CsModel = this.mongoose.model('Cs',this.CsSchema); 
 }
 
 DB.prototype.saveUser = function (u){
@@ -55,7 +62,6 @@ DB.prototype.findUser = function (username, cb){
 	//return doc;
 	//console.log("afuera: "+doc);
 }
-
 
 
 exports.createDB = function(){
