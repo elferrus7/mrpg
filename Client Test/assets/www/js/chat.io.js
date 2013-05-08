@@ -343,7 +343,7 @@
 
 		socket.on('startGame', function (data){
 			var jason = JSON.parse(data)
-			var grid = new Grid(6,10,jason[jason.length-1].background);
+			grid = new Grid(6,10,jason[jason.length-1].background);
 			for(var i in jason){
 				if(jason[i].src != null){
 					grid.addCharacter(jason[i].src,jason[i].cell);
